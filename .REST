@@ -1,0 +1,19 @@
+GET http://localhost:8080/api/products
+
+###
+GET http://localhost:8080/api/products/2
+
+###
+post http://localhost:8080/api/products/
+
+{
+  "title": "prueba 1",
+  "description": "prueba",
+  "price": 100000,
+  "code": "1234",
+  "stock": 10
+}
+
+###
+post http://localhost:8080/api/products/ HTTP/1.1
+content-type: application/json
