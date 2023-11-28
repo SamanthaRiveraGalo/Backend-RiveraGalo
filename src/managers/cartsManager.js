@@ -3,14 +3,14 @@ const fs = require('fs')
 //tengo que traer el json de productos 
 
 class CartsManager {
-    constructor() {
+    constructor(path) {
         this.path = path
     }
 
     readFile = async () => {
         try {
-            const data = await fs.promises.readFile(this.path, 'utf-8')
-            return JSON.parse(data)
+            const dataCart = await fs.promises.readFile(this.path, 'utf-8')
+            return JSON.parse(dataCart)
         } catch {
             return []
         }
@@ -40,7 +40,7 @@ class CartsManager {
         return cart
     }
 
-    //agregar un produc a card
+    //agregar un producto
     addProductToCart = async (cid, pid) => {
         //leo el archivo
         const carts = await this.readFile()
@@ -50,11 +50,20 @@ class CartsManager {
         if (cartIndex !== -1) {
             return 'No se encuentra el carrito'
         }
+        
+        //busco el producto en el carrito con el id
+        const productCarts = carts[cartIndex].products.find(product => product.id === pid)
 
-        carts[cartIndex].products = { productId: pid }
+        //si el producto no existe, lo agrego
+        if (!productCarts) {
+            carts[cartIndex].products.push({ id: pid, quantity: 1 })
+        } else {
+            //si el producto existe, incremento la cantidad
+            productCarts.quantity++
+        }
+        //luego lo escribo
         const results = await fs.promises.writeFile(this.path, JSON.stringify(carts, null, 2), 'utf-8')
         return results
-
     }
 }
 
