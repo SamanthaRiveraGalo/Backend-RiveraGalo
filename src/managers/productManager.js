@@ -21,7 +21,7 @@ class ProductManager {
 
     validateProduct = ({ title, description, price, thumbnail, code, stock }) => {
 
-        if (!title || !description || !price || !thumbnail || !code || !stock) {
+        if (!title || !description || !price || !thumbnail || !code || !stock ) {
             throw new Error("Por favor, complete todos los campos.");
         }
 
@@ -30,6 +30,7 @@ class ProductManager {
         if (existingProduct) {
             throw new Error("Ya existe un producto con el mismo título.");
         }
+
 
     };
 
@@ -47,7 +48,8 @@ class ProductManager {
 
         };
 
-        this.validateProduct(newProduct);
+
+        this.validateProduct(newProduct)
         this.products.push(newProduct);
         const productsJSON = JSON.stringify(this.products, null, 2);
         await fs.promises.writeFile(this.path, productsJSON);

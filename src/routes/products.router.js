@@ -45,16 +45,14 @@ router.get('/:pid', async (req, res) => {
 
 //post- agregar un nuevo producto - con addproducts()
 router.post('/', async (req, res) => {
-
     try {
+        console.log(req.body);
+        const { title, description, price, thumbnails, code, stock } = req.body;
 
-        const newProduct = req.body
-        const productAdd = await productsService.addProduct(newProduct)
-
-        res.status(200).json({status:"ok", data:productAdd})
-
+        const product = await productsService.addProduct(title, description, price, thumbnails, code, stock);
+        res.status(201).json({ status: "ok", data: product });
     } catch (error) {
-        res.status(500).json({ status: 'error', messenge: error.messenge })
+        res.status(400).json({ status: "error", message: error.message });
     }
 })
 
@@ -64,32 +62,33 @@ router.post('/', async (req, res) => {
 router.put('/:pid', async (req, res) => {
 
     try {
-
         const productId = parseInt(req.params.pid);
-        const product = req.body
+        const { title, description, price, thumbnails, code, stock } = req.body;
+        
+        console.log(req.body);
+        const product = await productsService.updateProduct(productId, title, description, price, thumbnails, code, stock);
 
-        const productUpdate = await productsService.updateProduct(productId, product)
+        res.status(200).json({ status: "ok", data: product });
 
-        res.status(200).json({ status: "ok", data: productUpdate });
+      } catch (error) {
 
-    }catch(error){
-        res.status(500).json({ status: 'error', messenge: error.messenge })
-    }
+        res.status(400).json({ status: "error", message: error.message });
+      }
 })
 
 //delete id eliminar el producto con el id indicado
 
-router.delete('/:pid', async (req,res)=>{
+router.delete('/:pid', async (req, res) => {
 
-    try{
+    try {
 
         const productId = parseInt(req.params.pid)
         const productDelete = await productsService.deleteProduct(productId)
 
-        res.status(200).json({status:"ok", data: productDelete})
+        res.status(200).json({ status: "ok", data: productDelete })
 
-    } catch(error){
-        res.status(500).json({status:'error', messenge: error.message})
+    } catch (error) {
+        res.status(500).json({ status: 'error', messenge: error.message })
     }
 })
 
