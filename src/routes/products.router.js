@@ -3,7 +3,7 @@ const ProductManager = require('../managers/productManager')
 
 const router = Router()
 
-const productsService = new ProductManager('./src/mockDB/products.json')
+const productsService = new ProductManager()
 
 //traer productos
 router.get('/', async (req, res) => {

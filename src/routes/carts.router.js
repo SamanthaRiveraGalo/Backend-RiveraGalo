@@ -3,7 +3,7 @@ const CartsManager = require('../managers/cartsManager')
 
 const router = Router()
 
-const cartsService = new CartsManager('./src/mockDB/carts.json')
+const cartsService = new CartsManager()
 
 
 router.get('/cid', async (req, res) => {
@@ -23,7 +23,6 @@ router.get('/cid', async (req, res) => {
 //post
 router.post('/', async (req, res) => {
     try {
-
         const newCart = await cartsService.createCart()
 
         res.status(200).json({

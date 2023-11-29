@@ -1,7 +1,9 @@
 const fs = require('fs')
 
+const path = './src/mockDB/carts.json'
+
 class CartsManager {
-    constructor(path) {
+    constructor() {
         this.path = path
         this.cart = []
     }

@@ -1,8 +1,10 @@
-const fs = require("fs");
+const fs = require("node:fs");
+
+const path = './src/mockDB/products.json'
 
 class ProductManager {
 
-    constructor(path) {
+    constructor() {
 
         this.products = [];
         this.path = path;
