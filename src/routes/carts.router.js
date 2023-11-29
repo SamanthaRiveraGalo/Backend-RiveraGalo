@@ -5,24 +5,25 @@ const router = Router()
 
 const cartsService = new CartsManager()
 
-
-router.get('/cid', async (req, res) => {
+router.get('/:cid', async (req, res) => {
     try {
-        const { cid } = parseInt(req.params)
-        const cart = await cartsService.getCartById(cid)
-        //validacion del carrito
-        res.send({
-            status: 'ok',
-            payload: cart
-        })
+        const cid = req.params.cid;
+        const cartById = await cartsService.getCartById(cid);
+        if(cartById) {
+          res.status(200).json(cartById);
+        }
+        else{
+          res.status(404).send('No se encontró ningún carrito!')
+        }
     } catch (error) {
         console.log(error)
     }
-})
+  })
 
 //post
 router.post('/', async (req, res) => {
     try {
+        console.log(req.body)
         const newCart = await cartsService.createCart()
 
         res.status(200).json({
@@ -42,7 +43,7 @@ router.post('/:cid/product/:pid', async (req, res) => {
         const cid = req.params.cid
         const pid = req.params.pid
 
-        const addProduct = await cartsService.addProductToCart(cid, pid)
+        const addProduct = await cartsService.addProductToCart(cid, productId)
 
         res.status(200).json({
             status: "ok",
@@ -53,5 +54,6 @@ router.post('/:cid/product/:pid', async (req, res) => {
         console.log(error)
     }
 })
+
 
 module.exports = router
