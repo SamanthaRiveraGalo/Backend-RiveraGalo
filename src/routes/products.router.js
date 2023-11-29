@@ -1,39 +1,34 @@
-const { Router } = require('express')
-const ProductManager = require('../managers/productManager')
+const { Router } = require("express");
 
-const router = Router()
+const router = Router();
 
-const productsService = new ProductManager()
+const ProductManager = require("../managers/productManager");
 
-//traer productos
-router.get('/', async (req, res) => {
+const productsService = new ProductManager("./src/mockDB/products.json");
+// cargo los productos
+productsService.getProducts().then(() => { });
 
-    try {
-        const limit = parseInt(req.query.limit)
-        //traigo los productos 
-        const products = await productsService.getProducts()
+router.get("/", async (req, res) => {
 
-        // si el limit no es NaN entonces
-        if (!isNaN(limit)) {
+    let limit = req.query.limit;
+    const returnProducts = await productsService.getProducts();
 
-            res.status(200).json({ status: "ok", data: products.slice(0, limit) });
+    if (limit) {
+        res.status(200).json({ status: "ok", data: returnProducts.slice(0, limit) });
 
-        } else {
-            res.status(200).json({ status: "ok", data: products });
-        }
-    } catch (error) {
-        res.status(500).json({ error: error.menssage })
+    } else {
+        res.status(200).json({ status: "ok", data: returnProducts });
     }
 
-})
+});
 
-//con el id (un solo producto)
-router.get('/:pid', async (req, res) => {
+
+router.get("/:pid", async (req, res) => {
 
     try {
 
-        const productId = parseInt(req.params.pid);
-        const product = await productsService.getProductsById(productId);
+        const id = parseInt(req.params.pid);
+        const product = await productsService.getProductById(id);
 
         res.status(200).json({ status: "ok", data: product });
 
@@ -43,54 +38,49 @@ router.get('/:pid', async (req, res) => {
     }
 });
 
-//post- agregar un nuevo producto - con addproducts()
-router.post('/', async (req, res) => {
+router.post("/", async (req, res) => {
     try {
-        console.log(req.body);
-        const { title, description, price, thumbnails, code, stock } = req.body;
 
+        const { title, description, price, thumbnails, code, stock } = req.body;
         const product = await productsService.addProduct(title, description, price, thumbnails, code, stock);
+
         res.status(201).json({ status: "ok", data: product });
+
     } catch (error) {
+
         res.status(400).json({ status: "error", message: error.message });
     }
-})
+});
 
-
-//put tiene que tomar el producto por el id y actualizarlo usando la funcion update()
-
-router.put('/:pid', async (req, res) => {
+router.put("/:pid", async (req, res) => {
 
     try {
-        const productId = parseInt(req.params.pid);
+
+        const id = parseInt(req.params.pid);
         const { title, description, price, thumbnails, code, stock } = req.body;
-        
-        console.log(req.body);
-        const product = await productsService.updateProduct(productId, title, description, price, thumbnails, code, stock);
+        const product = await productsService.updateProduct(id, title, description, price, thumbnails, code, stock);
 
         res.status(200).json({ status: "ok", data: product });
 
-      } catch (error) {
+    } catch (error) {
 
         res.status(400).json({ status: "error", message: error.message });
-      }
-})
+    }
+});
 
-//delete id eliminar el producto con el id indicado
-
-router.delete('/:pid', async (req, res) => {
-
+router.delete("/:pid", async (req, res) => {
     try {
 
-        const productId = parseInt(req.params.pid)
-        const productDelete = await productsService.deleteProduct(productId)
+        const id = parseInt(req.params.pid);
+        await productsService.deleteProduct(id);
 
-        res.status(200).json({ status: "ok", data: productDelete })
+        res.status(200).json({ status: "ok", message: "Product deleted" });
 
     } catch (error) {
-        res.status(500).json({ status: 'error', messenge: error.message })
+
+        res.status(400).json({ status: "error", message: error.message });
+
     }
-})
+});
 
-
-module.exports = router
+module.exports = router;
