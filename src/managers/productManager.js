@@ -17,6 +17,16 @@ class ProductManager {
 
     }
 
+    readFile = async () => {
+        try {
+            const data = await fs.promises.readFile(this.path, "utf-8")
+            return JSON.parse(data)
+        } catch (error) {
+            return []
+        }
+    }
+
+
     //validaciones
     validateProduct = ({ title, description, price, thumbnails, code, stock }) => {
 
@@ -33,6 +43,8 @@ class ProductManager {
 
     async addProduct(title, description, price, thumbnails, code, stock) {
 
+        const products = this.readFile()
+
         const newProduct = {
             id: this.products.length + 1,
             title,
@@ -48,6 +60,7 @@ class ProductManager {
         const productsJSON = JSON.stringify(this.products, null, 2);
         await fs.promises.writeFile(this.path, productsJSON);
         return newProduct;
+
     }
 
 
@@ -73,14 +86,17 @@ class ProductManager {
 
 
     async updateProduct(id, title, description, price, thumbnails, code, stock) {
-        //busco el producto por el indice
+
+        this.products = await this.readFile()
+
         const productIndex = this.products.findIndex((product) => product.id === id);
+
         if (productIndex === -1) {
-            throw new Error("Product not found");
+            throw new Error("Producto no encontrado");
         }
 
         if (!title || !description || !price || thumbnails || !code || !stock) {
-            throw new Error("Missing properties");
+            throw new Error("Completar todos los campos");
         }
 
         //actualizo el producto 
@@ -94,6 +110,8 @@ class ProductManager {
 
 
     async deleteProduct(id) {
+
+        this.products = await this.readFile()
 
         const productIndex = this.products.findIndex((product) => product.id === id);
 

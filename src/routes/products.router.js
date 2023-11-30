@@ -5,8 +5,7 @@ const router = Router();
 const ProductManager = require("../managers/productManager");
 
 const productsService = new ProductManager("./src/mockDB/products.json");
-// cargo los productos
-productsService.getProducts().then(() => { });
+
 
 router.get("/", async (req, res) => {
 
@@ -50,6 +49,7 @@ router.post("/", async (req, res) => {
 
         res.status(400).json({ status: "error", message: error.message });
     }
+    
 });
 
 router.put("/:pid", async (req, res) => {
