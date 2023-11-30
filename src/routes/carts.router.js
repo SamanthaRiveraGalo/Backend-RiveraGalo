@@ -3,22 +3,25 @@ const CartsManager = require('../managers/cartsManager')
 
 const router = Router()
 
-const cartsService = new CartsManager()
+const cartsService = new CartsManager('./src/mockDB/carts.json')
 
 router.get('/:cid', async (req, res) => {
     try {
+
         const cid = req.params.cid;
         const cartById = await cartsService.getCartById(cid);
-        if(cartById) {
-          res.status(200).json(cartById);
+
+        if (cartById) {
+            res.status(200).json(cartById);
         }
-        else{
-          res.status(404).send('No se encontró ningún carrito!')
+        else {
+            res.status(404).send('No se encontró ningún carrito!')
         }
+
     } catch (error) {
         console.log(error)
     }
-  })
+})
 
 //post
 router.post('/', async (req, res) => {
@@ -43,7 +46,7 @@ router.post('/:cid/product/:pid', async (req, res) => {
         const cid = req.params.cid
         const pid = req.params.pid
 
-        const addProduct = await cartsService.addProductToCart(cid, productId)
+        const addProduct = await cartsService.addProductToCart(cid, pid)
 
         res.status(200).json({
             status: "ok",

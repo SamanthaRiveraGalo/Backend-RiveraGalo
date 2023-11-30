@@ -1,9 +1,7 @@
 const fs = require('node:fs')
 
-const path = './src/mockDB/carts.json'
-
 class CartsManager {
-    constructor() {
+    constructor(path) {
         this.path = path
         this.cart = []
     }
@@ -42,20 +40,17 @@ class CartsManager {
     //por id
     getCartById = async (cid) => {
 
-        const cartId = this.cart.find((cart) => (cart.id == cid));
+        const carts = await this.readFile();
+        const cartId = carts.find((cart) => cart.id === parseInt(cid));
 
-        if (!cartId) {
-            return 'No se encontro el carrito';
-        }
-
-        return cartId.products;
+        return cartId || []; // Devuelve el carrito si lo encuentra, o un array vacío si no lo encuentra
     }
 
     //agrego un producto al carrito 
-    async addProductToCart(cid, productId) {
+    async addProductToCart(cid, pid) {
 
         //leo el archivo
-        let cartById = this.readFile()
+        let cartById = await this.readFile()
 
         //busco el id del carrito
         const cartIndex = cartById.findIndex((x) => (x.id == cid));
@@ -65,13 +60,13 @@ class CartsManager {
             const cartCopia = [...cartById];
             const carritoEncontrado = { ...cartById[cartIndex] };
             //busco el id del producto en el array carrito 
-            const productIndex = carritoEncontrado.products.findIndex((p) => parseInt(p.pid) === parseInt(productId));
+            const productIndex = carritoEncontrado.products.findIndex((p) => parseInt(p.pid) === parseInt(pid));
 
             //si lo encuentra aumento la cnatidad en 1 sino se agrega la cantidad 1
             if (productIndex !== -1) {
                 carritoEncontrado.products[productIndex].quantity += 1;
             } else {
-                carritoEncontrado.products.push({ pid: parseInt(productId), quantity: 1 });
+                carritoEncontrado.products.push({ pid: parseInt(pid), quantity: 1 });
             }
 
             //actualizo la copia del array con todos los cambios
@@ -81,7 +76,7 @@ class CartsManager {
             await fs.promises.writeFile('carrito.json', nuevaListaString);
         }
         else {
-            console.log(`No se encontró ningún carrito con el id: ${cartId}`)
+            console.log('No se encontro el carrito con ese id')
         }
     }
 }
