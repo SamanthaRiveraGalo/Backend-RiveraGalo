@@ -66,10 +66,8 @@ class ProductManager {
 
     async getProducts() {
 
-        const productsJSON = await fs.promises.readFile(this.path, "utf-8");
-        this.products = JSON.parse(productsJSON);
-
-        return this.products;
+        const products = this.readFile()
+        return products;
     }
 
 
@@ -99,7 +97,7 @@ class ProductManager {
             throw new Error("Completar todos los campos");
         }
 
-        //actualizo el producto 
+        //actualizo el producto
         this.products[productIndex] = { id, title, description, price, thumbnails, code, stock };
 
         const productsJSON = JSON.stringify(this.products, null, 2);

@@ -46,39 +46,65 @@ class CartsManager {
         return cartId || []; // Devuelve el carrito si lo encuentra, o un array vacío si no lo encuentra
     }
 
-    //agrego un producto al carrito 
-    async addProductToCart(cid, pid) {
+    // //agrego un producto al carrito 
+    // async addProductToCart(cid, pid) {
 
+    //     //leo el archivo
+    //     let cartById = await this.readFile()
+
+    //     //busco el id del carrito
+    //     const cartIndex = cartById.findIndex((x) => (x.id == cid));
+
+    //     //si el carrito no esta creo una copia del carrito y del objeto 
+    //     if (cartIndex !== -1) {
+    //         const cartCopia = [...cartById];
+    //         const carritoEncontrado = { ...cartById[cartIndex] };
+    //         //busco el id del producto en el array carrito 
+    //         const productIndex = carritoEncontrado.products.findIndex((p) => parseInt(p.pid) === parseInt(pid));
+
+    //         //si lo encuentra aumento la cnatidad en 1 sino se agrega la cantidad 1
+    //         if (productIndex !== -1) {
+    //             carritoEncontrado.products[productIndex].quantity += 1;
+    //         } else {
+    //             carritoEncontrado.products.push({ pid: parseInt(pid), quantity: 1 });
+    //         }
+
+    //         //actualizo la copia del array con todos los cambios
+    //         cartCopia[cartIndex] = carritoEncontrado;
+
+    //         const nuevaListaString = JSON.stringify(cartCopia, null, 2);
+    //         await fs.promises.writeFile('carrito.json', nuevaListaString);
+    //     }
+    //     else {
+    //         console.log('No se encontro el carrito con ese id')
+    //     }
+    // }
+
+    addProductToCart = async (cid, pid) => {
         //leo el archivo
-        let cartById = await this.readFile()
+        const carts = await this.readFile()
+        //busco el cart por el id
+        const cartIndex = this.getCartById(cid)
 
-        //busco el id del carrito
-        const cartIndex = cartById.findIndex((x) => (x.id == cid));
-
-        //si el carrito no esta creo una copia del carrito y del objeto 
         if (cartIndex !== -1) {
-            const cartCopia = [...cartById];
-            const carritoEncontrado = { ...cartById[cartIndex] };
-            //busco el id del producto en el array carrito 
-            const productIndex = carritoEncontrado.products.findIndex((p) => parseInt(p.pid) === parseInt(pid));
-
-            //si lo encuentra aumento la cnatidad en 1 sino se agrega la cantidad 1
-            if (productIndex !== -1) {
-                carritoEncontrado.products[productIndex].quantity += 1;
-            } else {
-                carritoEncontrado.products.push({ pid: parseInt(pid), quantity: 1 });
-            }
-
-            //actualizo la copia del array con todos los cambios
-            cartCopia[cartIndex] = carritoEncontrado;
-
-            const nuevaListaString = JSON.stringify(cartCopia, null, 2);
-            await fs.promises.writeFile('carrito.json', nuevaListaString);
+            return 'No se encuentra el carrito'
         }
-        else {
-            console.log('No se encontro el carrito con ese id')
+
+        //busco el producto en el carrito con el id
+        const productCarts = carts[cartIndex].products.find(product => product.id === pid)
+
+        //si el producto no existe, lo agrego
+        if (!productCarts) {
+            carts[cartIndex].products.push({ id: pid, quantity: 1 })
+        } else {
+            //si el producto existe, incremento la cantidad
+            productCarts.quantity++
         }
+        //luego lo escribo
+        const results = await fs.promises.writeFile(this.path, JSON.stringify(carts, null, 2), 'utf-8')
+        return results
     }
+
 }
 
 module.exports = CartsManager
