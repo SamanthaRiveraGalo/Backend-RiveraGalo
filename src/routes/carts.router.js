@@ -4,7 +4,7 @@ const CartsManager = require('../managers/cartsManager')
 
 const router = Router()
 
-const cartsService = new CartsManager('./src/mockDB/carts.json')
+const cartsService = new CartsManager()
 
 router.get('/:cid', async (req, res) => {
     try {
@@ -47,7 +47,7 @@ router.post('/:cid/product/:pid', async (req, res) => {
         const cid = req.params.cid
         const pid = req.params.pid
 
-        const addProduct = await cartsService.addProductToCart(cid, pid)
+        const addProduct = await cartsService.addProductToCart(parseInt(cid), parseInt(pid))
 
         res.status(200).json({
             status: "ok",
@@ -58,6 +58,7 @@ router.post('/:cid/product/:pid', async (req, res) => {
         console.log(error)
     }
 })
+
 
 
 module.exports = router

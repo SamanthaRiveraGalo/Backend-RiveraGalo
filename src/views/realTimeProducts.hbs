@@ -19,8 +19,8 @@
                 {{#each products}}
                 <li>
                     <p> Nombre: {{this.title}} </p>
-                    <p>Codigo: {{this.code}} </p>
-                    <button id={{this.id}} class="btn-delete"> Eliminar </button>
+                    <p> Codigo: {{this.code}} </p>
+                    <button onclick="delete-product({{this.id}})">Eliminar</button>
                 </li>
                 {{/each}}
             </ul>

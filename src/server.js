@@ -49,18 +49,18 @@ io.on("connection", socket => {
   socket.on('add-product', async newProduct => {
 
     await managerService.addProduct(newProduct)
-    const productsList = await  managerService.getProducts()
+    const productsList = await managerService.getProducts()
 
-    socket.emit('update-products', productsList);
+    io.emit('update-products', productsList);
   });
 
- 
-    socket.on('delete-product', async productId => {
-      await managerService.deleteProduct(productId);
-      const productsList = await  managerService.getProducts()
-  
-      io.emit('update-products', productsList);
-    });
- 
+  socket.on('delete-product', async (productId) => {
+
+    await managerService.deleteProduct(productId)
+    const productsList = await managerService.getProducts()
+
+    io.emit('update-products', productsList)
+
+  })
 
 });

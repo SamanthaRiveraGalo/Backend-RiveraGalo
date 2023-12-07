@@ -1,8 +1,10 @@
 const fs = require("node:fs");
 
+const path = "./src/mockDB/products.json"
+
 class ProductManager {
 
-    constructor(path) {
+    constructor() {
         this.products = [];
         this.path = path;
     }
@@ -30,7 +32,7 @@ class ProductManager {
     //validaciones
     validateProduct = ({ title, description, price, thumbnails, code, stock }) => {
 
-        if (!title || !description || !price || thumbnails || !code || !stock) {
+        if (!title || !description || !price || !thumbnails || !code || !stock) {
             throw new Error("Por favor, complete todos los campos");
         }
 
@@ -93,7 +95,7 @@ class ProductManager {
             throw new Error("Producto no encontrado");
         }
 
-        if (!title || !description || !price || thumbnails || !code || !stock) {
+        if (!title || !description || !price || !thumbnails || !code || !stock) {
             throw new Error("Completar todos los campos");
         }
 
@@ -124,6 +126,25 @@ class ProductManager {
         await fs.promises.writeFile(this.path, productsJSON);
 
         return deletedProduct;
+    }
+
+    async deleteProductByCode(code) {
+
+        this.products = await this.readFile()
+
+        const productIndex = this.products.findIndex((product) => product.code === code);
+
+        if (productIndex === -1) {
+            throw new Error("Product not found");
+        }
+
+        const deletedProductByCode = this.products[productIndex];
+        this.products.splice(productIndex, 1);
+
+        const productsJSON = JSON.stringify(this.products, null, 2);
+        await fs.promises.writeFile(this.path, productsJSON);
+
+        return deletedProductByCode;
     }
 }
 
