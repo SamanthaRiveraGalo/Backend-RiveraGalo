@@ -39,7 +39,7 @@ socket.on('update-products', (productsList) => {
         item.innerHTML = `<li>
                                 <p> Nombre: ${product.title}</p>
                                 <p> Codigo: ${product.code} </p>
-                                <button onclick="delete-product(${product.id})"> Eliminar </button>
+                                <button onclick="deleteProduct(${product.id})"> Eliminar </button>
                           </li>`;
 
         productUl.appendChild(item); // agrego cada producto a la lista
@@ -49,8 +49,6 @@ socket.on('update-products', (productsList) => {
 
 
 function deleteProduct(productId) {
-    //este clg no entra
-    console.log('escucha el evento')
     socket.emit('delete-product', productId)
 }
-deleteProduct()
+
