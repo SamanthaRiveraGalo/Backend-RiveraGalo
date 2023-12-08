@@ -52,5 +52,13 @@
     "thumbnail": "https://nikearprod.vtexassets.com/arquivos/ids/317650-800-800?v=638128486031170000&width=800&height=800&aspect=true",
     "code": "B789",
     "stock": 30
+  },
+  {
+    "id": 7,
+    "title": "sam",
+    "description": "sam",
+    "price": "45",
+    "code": "s12",
+    "stock": "45"
   }
 ]

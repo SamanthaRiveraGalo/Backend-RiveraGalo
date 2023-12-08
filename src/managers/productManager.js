@@ -94,7 +94,7 @@ class ProductManager {
         const productIndex = this.products.findIndex((product) => product.id === id);
 
         if (productIndex === -1) {
-            throw new Error("Producto no encontrado");
+            return "Producto no encontrado";
         }
 
         if (!title || !description || !price || !thumbnails || !code || !stock) {
@@ -113,42 +113,25 @@ class ProductManager {
 
 
     async deleteProduct(id) {
+        console.log('entra al manager')
 
-        this.products = await this.readFile()
+        const products = await this.readFile()
 
-        const productIndex = this.products.findIndex((product) => product.id === id);
+        const productIndex = products.findIndex((product) => product.id === id);
 
         if (productIndex === -1) {
-            throw new Error("Product not found");
+            return "Product not found";
         }
 
-        const deletedProduct = this.products[productIndex];
-        this.products.splice(productIndex, 1);
+        const deletedProduct = products[productIndex];
+        products.splice(productIndex, 1);
 
-        const productsJSON = JSON.stringify(this.products, null, 2);
+        const productsJSON = JSON.stringify(products, null, 2);
         await fs.promises.writeFile(this.path, productsJSON);
 
         return deletedProduct;
     }
 
-    async deleteProductByCode(code) {
-
-        this.products = await this.readFile()
-
-        const productIndex = this.products.findIndex((product) => product.code === code);
-
-        if (productIndex === -1) {
-            throw new Error("Product not found");
-        }
-
-        const deletedProductByCode = this.products[productIndex];
-        this.products.splice(productIndex, 1);
-
-        const productsJSON = JSON.stringify(this.products, null, 2);
-        await fs.promises.writeFile(this.path, productsJSON);
-
-        return deletedProductByCode;
-    }
 }
 
 module.exports = ProductManager;

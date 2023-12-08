@@ -53,19 +53,24 @@ io.on("connection", socket => {
       const productsList = await managerService.getProducts()
 
       io.emit('update-products', productsList);
-      
-    } catch(error){
+
+    } catch (error) {
       console.log(error)
     }
 
   });
 
-  socket.on('delete-product', async (productId) => {
+  socket.on('delete-product', async productId => {
+    try {
+      console.log('llega al server')
+      await managerService.deleteProduct(productId)
+      const productsList = await managerService.getProducts()
 
-    await managerService.deleteProduct(productId)
-    const productsList = await managerService.getProducts()
+      io.emit('update-products', productsList)
 
-    io.emit('update-products', productsList)
+    } catch (error) {
+      console.error(error)
+    }
 
   })
 

@@ -2,8 +2,6 @@ const socket = io() //levantamos el servidor desde el lado del cliente
 
 const form = document.getElementById('form')
 const productUl = document.getElementById('products');
-const deleteButton = document.querySelectorAll(".btn-delete")
-
 
 form.addEventListener('submit', (e) => {
     console.log('entro')
@@ -41,7 +39,7 @@ socket.on('update-products', (productsList) => {
         item.innerHTML = `<li>
                                 <p> Nombre: ${product.title}</p>
                                 <p> Codigo: ${product.code} </p>
-                                <button> Eliminar </button>
+                                <button onclick="delete-product(${product.id})"> Eliminar </button>
                           </li>`;
 
         productUl.appendChild(item); // agrego cada producto a la lista
@@ -51,6 +49,8 @@ socket.on('update-products', (productsList) => {
 
 
 function deleteProduct(productId) {
-    // Enviamos el evento al servidor.
+    //este clg no entra
+    console.log('escucha el evento')
     socket.emit('delete-product', productId)
 }
+deleteProduct()
