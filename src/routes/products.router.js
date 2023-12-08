@@ -41,7 +41,8 @@ router.post("/", async (req, res) => {
     try {
 
         const { title, description, price, thumbnails, code, stock } = req.body;
-        const product = await productsService.addProduct(title, description, price, thumbnails, code, stock);
+        
+        const product = await productsService.addProduct({title, description, price, thumbnails, code, stock});
 
         res.status(201).json({ status: "ok", data: product });
 

@@ -40,17 +40,17 @@ class ProductManager {
         const existingProduct = this.products.find((product) => product.code === code);
         if (existingProduct) {
             // throw new Error("Ya existe un producto con el mismo título.");
-            return("Ya existe un producto con el mismo título.");
+            return ("Ya existe un producto con el mismo título.");
         }
     };
 
 
-    async addProduct(title, description, price, thumbnails, code, stock) {
+    async addProduct({ title, description, price, thumbnails, code, stock }) {
 
-        const products = this.readFile()
+        const products = await this.readFile()
 
         const newProduct = {
-            id: this.products.length + 1,
+            id: products[products.length - 1].id + 1,
             title,
             description,
             price,
@@ -60,8 +60,8 @@ class ProductManager {
         };
 
         this.validateProduct(newProduct);
-        this.products.push(newProduct);
-        const productsJSON = JSON.stringify(this.products, null, 2);
+        products.push(newProduct);
+        const productsJSON = JSON.stringify(products, null, 2);
         await fs.promises.writeFile(this.path, productsJSON);
         return newProduct;
 
@@ -70,7 +70,7 @@ class ProductManager {
 
     async getProducts() {
 
-        const products = this.readFile()
+        const products = await this.readFile()
         return products;
     }
 
