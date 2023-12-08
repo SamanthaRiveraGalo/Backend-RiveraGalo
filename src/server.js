@@ -47,11 +47,17 @@ io.on("connection", socket => {
   console.log("Client connected");
 
   socket.on('add-product', async newProduct => {
+    try {
 
-    await managerService.addProduct(newProduct)
-    const productsList = await managerService.getProducts()
+      await managerService.addProduct(newProduct)
+      const productsList = await managerService.getProducts()
 
-    io.emit('update-products', productsList);
+      io.emit('update-products', productsList);
+      
+    } catch(error){
+      console.log(error)
+    }
+
   });
 
   socket.on('delete-product', async (productId) => {

@@ -4,8 +4,9 @@ const form = document.getElementById('form')
 const productUl = document.getElementById('products');
 const deleteButton = document.querySelectorAll(".btn-delete")
 
-form.addEventListener('sumit', (e) => {
 
+form.addEventListener('submit', (e) => {
+    console.log('entro')
     e.preventDefault()
 
     const title = document.getElementById('title').value;
@@ -26,31 +27,28 @@ form.addEventListener('sumit', (e) => {
 
     socket.emit('add-product', product)
 
-    update()
 })
 
-function update() {
 
-    socket.on('update-products', (productsList) => {
+socket.on('update-products', (productsList) => {
 
-        console.log(productsList)
+    console.log(productsList)
 
-        productUl.innerHTML = ''
+    productUl.innerHTML = ''
 
-        productsList.forEach((product) => {
-            const item = document.createElement('li')
-            item.innerHTML= `<li>
+    productsList.forEach((product) => {
+        const item = document.createElement('li')
+        item.innerHTML = `<li>
                                 <p> Nombre: ${product.title}</p>
                                 <p> Codigo: ${product.code} </p>
                                 <button> Eliminar </button>
                           </li>`;
 
-            productUl.appendChild(item); // agrego cada producto a la lista
+        productUl.appendChild(item); // agrego cada producto a la lista
 
-        });
     });
+});
 
-}
 
 function deleteProduct(productId) {
     // Enviamos el evento al servidor.

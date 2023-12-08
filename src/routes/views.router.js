@@ -20,11 +20,16 @@ router.get('/', async (req, res) => {
 //WEBSOCKET AGREGAR UN PRODUCTO Y ELIMINAR UN PRODUCTO
 
 router.get("/realtimeproducts", async (req, res) => {
+    try {
 
-    const products = await managerService.getProducts();
-
-    res.status(200).render("realTimeProducts", { products });
+        const products = await managerService.getProducts();
     
+        res.status(200).render("realTimeProducts", { products });
+
+    } catch (error) {
+        console.log(error)
+    }
+
 });
 
 

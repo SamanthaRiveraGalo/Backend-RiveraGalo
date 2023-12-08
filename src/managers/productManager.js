@@ -33,12 +33,14 @@ class ProductManager {
     validateProduct = ({ title, description, price, thumbnails, code, stock }) => {
 
         if (!title || !description || !price || !thumbnails || !code || !stock) {
-            throw new Error("Por favor, complete todos los campos");
+            // throw new Error("Por favor, complete todos los campos");
+            return ("Por favor, complete todos los campos");
         }
 
         const existingProduct = this.products.find((product) => product.code === code);
         if (existingProduct) {
-            throw new Error("Ya existe un producto con el mismo título.");
+            // throw new Error("Ya existe un producto con el mismo título.");
+            return("Ya existe un producto con el mismo título.");
         }
     };
 
@@ -96,7 +98,8 @@ class ProductManager {
         }
 
         if (!title || !description || !price || !thumbnails || !code || !stock) {
-            throw new Error("Completar todos los campos");
+            // throw new Error("Completar todos los campos");
+            return "Completar todos los campos";
         }
 
         //actualizo el producto
