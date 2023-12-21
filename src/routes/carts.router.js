@@ -47,6 +47,8 @@ router.get('/cid', async (req, res) => {
         const cid = req.params.cid;
 
         const carts = await cartServiceMongo.getCartById(cid);
+     
+
         if (!carts) {
             return res.status(404).send({
                 status: "Error",
@@ -137,7 +139,7 @@ router.delete('/:cid', async (req, res) => {
             });
 
         }
-       
+
         return res.status(200).send({
             status: "Success",
             payload: deleteCart,

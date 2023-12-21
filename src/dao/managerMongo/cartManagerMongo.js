@@ -10,9 +10,9 @@ class CartDaoMongo {
     async getCarts() {
         return await this.model.find().lean()
     }
-
     async getCartById(cid) {
-        return await this.model.findOne({ _id: cid }).lean()
+     
+        return await this.model.find({ _id: cid })
     }
 
     async createCart(newCart) {
@@ -22,7 +22,7 @@ class CartDaoMongo {
     async updateCart(cid, pid) {
         try {
 
-            const cart = await this.cartModel.findById(cid)
+            const cart = await this.model.findOne({_id:cid})
             if (!cart) {
                 return 'No se encuentra el carrito'
             }

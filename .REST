@@ -32,11 +32,11 @@ content-type: application/json
   "email":"srg@gmail.com"
 }
 
----------------------- Mongo----------------------------------------
+---------------------- Mongo PRODUCTOS ----------------------------------------
 
 ###
 GET http://localhost:8080/api/products
-
+//funciona
 
 ###
 GET http://localhost:8080/api/products/658383af3b801dcfe9bc2076
@@ -65,7 +65,25 @@ DELETE  http://localhost:8080/api/products/65837fa63b801dcfe9bc2074
 //funciona
 
 
------------------carts----------------------------------------
+-----------------CARRITO----------------------------------------
+###
+GET http://localhost:8080/api/carts
+//Funciona
+
+###
+GET  http://localhost:8080/api/carts/6583875458d08e7dbe2535c7
+//no funca
 
 ###
 POST http://localhost:8080/api/carts
+
+//Funciona 
+
+###
+PUT  http://localhost:8080/api/carts/6583875458d08e7dbe2535c7/658383513b801dcfe9bc2075
+//funciona
+
+###
+DELETE   http://localhost:8080/api/carts/658389f0a76ab3cf10efaca4
+//funciona
+
