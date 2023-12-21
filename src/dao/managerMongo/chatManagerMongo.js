@@ -20,12 +20,9 @@ class ChatMassage {
     }
 
     async getMessages() {
-        try {
-            const messages = await this.messagesModel.find().lean();
-            return messages;
-        } catch (error) {
-            console.log(error)
-        }
+       
+        return await this.messagesModel.find().lean();
+         
     }
 
 }

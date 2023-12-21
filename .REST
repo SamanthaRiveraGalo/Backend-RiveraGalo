@@ -1,39 +1,3 @@
-GET http://localhost:8080/api/products
-
-###
-GET http://localhost:8080/api/products/2
-
-###
-post http://localhost:8080/api/products/
-
-{
-  "title": "prueba 1",
-  "description": "prueba",
-  "price": 100000,
-  "code": "1234",
-  "stock": 10
-}
-
-###
-post http://localhost:8080/api/users/
-content-type: application/json
-
-{
-  "first_name":"Samantha",
-  "email":"s@gmail.com"
-}
-
-###
-put http://localhost:8080/api/users/657de03b481398881cebb21e
-content-type: application/json
-
-{
-  "first_name":"Sam",
-  "email":"srg@gmail.com"
-}
-
----------------------- Mongo PRODUCTOS ----------------------------------------
-
 ###
 GET http://localhost:8080/api/products
 //funciona
@@ -72,7 +36,7 @@ GET http://localhost:8080/api/carts
 
 ###
 GET  http://localhost:8080/api/carts/6583875458d08e7dbe2535c7
-//no funca
+//funciona
 
 ###
 POST http://localhost:8080/api/carts
@@ -86,4 +50,3 @@ PUT  http://localhost:8080/api/carts/6583875458d08e7dbe2535c7/658383513b801dcfe9
 ###
 DELETE   http://localhost:8080/api/carts/658389f0a76ab3cf10efaca4
 //funciona
-

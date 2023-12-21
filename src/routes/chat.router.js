@@ -6,10 +6,11 @@ const chatManager = new ChatMassage()
 
 const router = Router()
 
-router.get("/chat", async (req, res) => {
-   const chat = await chatManager.getMessages()
-   res.render("chat", {chat})
+router.get("/:chat", async (req, res) => {
+
+   res.render("chat")
+
 })
 
 
-module.exports= router
+module.exports = router

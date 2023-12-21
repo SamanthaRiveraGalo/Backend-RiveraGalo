@@ -40,13 +40,13 @@ router.get('/', async (req, res) => {
     // }
 })
 
-router.get('/cid', async (req, res) => {
+router.get('/:cid', async (req, res) => {
 
     try {
 
-        const cid = req.params.cid;
+        const cartId = req.params.cid;
 
-        const carts = await cartServiceMongo.getCartById(cid);
+        const carts = await cartServiceMongo.getCartById(cartId);
      
 
         if (!carts) {
