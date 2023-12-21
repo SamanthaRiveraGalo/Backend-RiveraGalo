@@ -1,23 +1,59 @@
 const { Router } = require('express')
 
-const CartsManager = require('../managers/cartsManager')
+// const CartsManager = require('../dao/managersFile/cartsManager')
+// const cartsService = new CartsManager()
 
 const router = Router()
 
-const cartsService = new CartsManager()
+const CartDaoMongo = require('../dao/managerMongo/cartManagerMongo')
+const cartServiceMongo = new CartDaoMongo()
 
-router.get('/:cid', async (req, res) => {
+
+router.get('/', async (req, res) => {
+    try {
+        const carts = await cartServiceMongo.getCarts();
+        if (!carts) {
+            return res.status(404).send({
+                status: "Error",
+                message: { error: "Carrito no encontrado" },
+            });
+        }
+        return res.send({ status: "Sucess", payload: carts });
+
+    } catch (error) {
+        console.log(error)
+    }
+    // try {
+
+    //     const cid = req.params.cid;
+    //     const cartById = await cartsService.getCartById(cid);
+
+    //     if (cartById) {
+    //         res.status(200).json(cartById);
+    //     }
+    //     else {
+    //         res.status(404).send('No se encontró ningún carrito!')
+    //     }
+
+    // } catch (error) {
+    //     console.log(error)
+    // }
+})
+
+router.get('/cid', async (req, res) => {
+
     try {
 
         const cid = req.params.cid;
-        const cartById = await cartsService.getCartById(cid);
 
-        if (cartById) {
-            res.status(200).json(cartById);
+        const carts = await cartServiceMongo.getCartById(cid);
+        if (!carts) {
+            return res.status(404).send({
+                status: "Error",
+                message: { error: "Carrito por id no encontrado" },
+            });
         }
-        else {
-            res.status(404).send('No se encontró ningún carrito!')
-        }
+        return res.send({ status: "Sucess", payload: carts });
 
     } catch (error) {
         console.log(error)
@@ -27,38 +63,90 @@ router.get('/:cid', async (req, res) => {
 //post
 router.post('/', async (req, res) => {
     try {
-        console.log(req.body)
-        const newCart = await cartsService.createCart()
 
-        res.status(200).json({
-            status: "ok",
-            data: newCart
+        const newCart = req.body
+
+        const result = await cartServiceMongo.createCart(newCart)
+        if (!result) {
+            return res.status(400).send({ status: "Error", message: { error: "No se pudo agregar ningun producto" }, });
+        }
+
+        res.send({
+            status: 'success',
+            payload: result
         })
 
     } catch (error) {
-        console.log(error)
+        console.log(error);
     }
+    // try {
+    //     console.log(req.body)
+    //     const newCart = await cartsService.createCart()
+
+    //     res.status(200).json({
+    //         status: "ok",
+    //         data: newCart
+    //     })
+
+    // } catch (error) {
+    //     console.log(error)
+    // }
 })
 
-//post
-router.post('/:cid/product/:pid', async (req, res) => {
+router.put('/:cid/:pid', async (req, res) => {
     try {
 
-        const cid = req.params.cid
-        const pid = req.params.pid
+        const cartId = req.params.cid;
+        const prodId = req.params.pid;
 
-        const addProduct = await cartsService.addProductToCart(parseInt(cid), parseInt(pid))
+        const cartUpdate = await cartServiceMongo.updateCart(cartId, prodId);
 
-        res.status(200).json({
-            status: "ok",
-            data: addProduct
-        })
+        if (!cartUpdate) {
+
+            return res.status(400).send({
+                status: "Error",
+                message: { error: "no se pudo actualizar el carrito" },
+            });
+
+        }
+
+        return res.status(200).send({
+            status: "Success",
+            payload: cartUpdate,
+        });
+
+
 
     } catch (error) {
-        console.log(error)
+        console.log(error);
     }
-})
+});
 
+// **DELETE**
+router.delete('/:cid', async (req, res) => {
+    try {
+        const cartId = req.params.cid;
+
+        const deleteCart = await cartServiceMongo.deleteCart(cartId);
+
+        if (!deleteCart) {
+
+            return res.status(400).send({
+                status: "Error",
+                message: { error: "no se pudo eliminar el carrito" },
+            });
+
+        }
+       
+        return res.status(200).send({
+            status: "Success",
+            payload: deleteCart,
+        });
+
+    } catch (error) {
+        console.log(error);
+    }
+});
 
 
 module.exports = router

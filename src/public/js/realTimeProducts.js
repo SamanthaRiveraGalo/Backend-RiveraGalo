@@ -30,8 +30,6 @@ form.addEventListener('submit', (e) => {
 
 socket.on('update-products', (productsList) => {
 
-    console.log(productsList)
-
     productUl.innerHTML = ''
 
     productsList.forEach((product) => {
@@ -47,7 +45,7 @@ socket.on('update-products', (productsList) => {
     });
 });
 
-
+//este deleteProduct es una funcion que llamo en el button onclick
 function deleteProduct(productId) {
     socket.emit('delete-product', productId)
 }
