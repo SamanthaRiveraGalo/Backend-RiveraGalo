@@ -13,6 +13,7 @@ form.addEventListener('submit', (e) => {
     const price = document.getElementById('price').value;
     const stock = document.getElementById('stock').value;
     const thumnail = document.getElementById('imagen').value
+    const category = document.getElementById('categoria').value
 
     const product = {
         title: title,
@@ -20,7 +21,8 @@ form.addEventListener('submit', (e) => {
         code: code,
         price: price,
         stock: stock,
-        thumnail: thumnail
+        thumnail: thumnail,
+        category: category
     };
 
     socket.emit('add-product', product)
@@ -48,5 +50,6 @@ socket.on('update-products', (productsList) => {
 //este deleteProduct es una funcion que llamo en el button onclick
 function deleteProduct(productId) {
     socket.emit('delete-product', productId)
+
 }
 

@@ -1,12 +1,10 @@
 const { Router } = require('express')
 
-const ProductManager = require('../dao/managersFile/productManager')
+const ProductDaoMongo = require('../dao/managerMongo/productManagerMongo')
 
 const router = Router()
 
-const managerService = new ProductManager("./src/mockDB/products.json")
-
-
+const productService = new ProductDaoMongo()
 
 //RUTA CON HANDLEBARS
 router.get('/', async (req, res) => {
@@ -22,8 +20,7 @@ router.get('/', async (req, res) => {
 router.get("/realtimeproducts", async (req, res) => {
     try {
 
-        const products = await managerService.getProducts();
-    
+        const products = await productService.getProducts()
         res.status(200).render("realTimeProducts", { products });
 
     } catch (error) {

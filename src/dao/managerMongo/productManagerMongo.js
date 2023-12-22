@@ -6,7 +6,7 @@ class ProductDaoMongo {
     }
 
     async getProducts() {
-        return await this.model.find()
+        return await this.model.find().lean()
     }
 
     async getProductById(pid) {

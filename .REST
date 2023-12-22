@@ -50,3 +50,7 @@ PUT  http://localhost:8080/api/carts/6583875458d08e7dbe2535c7/658383513b801dcfe9
 ###
 DELETE   http://localhost:8080/api/carts/658389f0a76ab3cf10efaca4
 //funciona
+
+
+###
+GET  http://localhost:8080/views/realtimeproducts

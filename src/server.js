@@ -9,10 +9,12 @@ const cartRouter = require('./routes/carts.router.js')
 const userRouter = require('./routes/users.router.js')
 const viewsRouter = require('./routes/views.router.js')
 const chatRouter = require('./routes/chat.router.js')
-
-const ProductManager = require('./dao/managersFile/productManager.js')
 const ChatMassage = require('./dao/managerMongo/chatManagerMongo.js')
+const ProductDaoMongo = require('./dao/managerMongo/productManagerMongo.js')
+const productModel = require('./dao/models/product.model.js')
+const productsModel = new productModel()
 const massageManager = new ChatMassage()
+const productService = new ProductDaoMongo()
 
 const app = express()
 const port = 8080
@@ -24,7 +26,6 @@ const connectDb = async () => {
 }
 connectDb()
 
-const managerService = new ProductManager()
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -56,6 +57,7 @@ const serverHttp = app.listen(port, () => {
 const io = new Server(serverHttp)
 
 
+
 io.on("connection", socket => {
 
   //SOCKETIO PRODUCTS
@@ -64,8 +66,8 @@ io.on("connection", socket => {
   socket.on('add-product', async newProduct => {
     try {
 
-      await managerService.addProduct(newProduct)
-      const productsList = await managerService.getProducts()
+      await productService.createProduct(newProduct)
+      const productsList = await productService.getProducts()
 
       io.emit('update-products', productsList);
 
@@ -77,10 +79,10 @@ io.on("connection", socket => {
 
   socket.on('delete-product', async productId => {
     try {
-      console.log('llega al server')
-      await managerService.deleteProduct(productId)
-      const productsList = await managerService.getProducts()
 
+      await productService.deleteProduct(productId)
+      const productsList = await productService.getProducts()
+      console.log(productId)
       io.emit('update-products', productsList)
 
     } catch (error) {
