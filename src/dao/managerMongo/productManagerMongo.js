@@ -28,6 +28,7 @@ class ProductDaoMongo {
         
         return await this.model.deleteOne({ _id: pid })
     }
+
 }
 
 module.exports = ProductDaoMongo

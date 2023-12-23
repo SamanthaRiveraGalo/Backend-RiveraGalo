@@ -11,8 +11,6 @@ const viewsRouter = require('./routes/views.router.js')
 const chatRouter = require('./routes/chat.router.js')
 const ChatMassage = require('./dao/managerMongo/chatManagerMongo.js')
 const ProductDaoMongo = require('./dao/managerMongo/productManagerMongo.js')
-const productModel = require('./dao/models/product.model.js')
-const productsModel = new productModel()
 const massageManager = new ChatMassage()
 const productService = new ProductDaoMongo()
 
@@ -57,7 +55,6 @@ const serverHttp = app.listen(port, () => {
 const io = new Server(serverHttp)
 
 
-
 io.on("connection", socket => {
 
   //SOCKETIO PRODUCTS
@@ -82,7 +79,7 @@ io.on("connection", socket => {
 
       await productService.deleteProduct(productId)
       const productsList = await productService.getProducts()
-      console.log(productId)
+      console.log(productId)//null
       io.emit('update-products', productsList)
 
     } catch (error) {

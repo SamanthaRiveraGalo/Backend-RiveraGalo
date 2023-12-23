@@ -4,7 +4,6 @@ const form = document.getElementById('form')
 const productUl = document.getElementById('products');
 
 form.addEventListener('submit', (e) => {
-    console.log('entro')
     e.preventDefault()
 
     const title = document.getElementById('title').value;
@@ -39,9 +38,8 @@ socket.on('update-products', (productsList) => {
         item.innerHTML = `<li>
                                 <p> Nombre: ${product.title}</p>
                                 <p> Codigo: ${product.code} </p>
-                                <button onclick="deleteProduct(${product.id})"> Eliminar </button>
+                                <button onclick="deleteProduct(${product._id})"> Eliminar </button>
                           </li>`;
-
         productUl.appendChild(item); // agrego cada producto a la lista
 
     });
