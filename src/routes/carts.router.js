@@ -70,7 +70,7 @@ router.post('/', async (req, res) => {
 
         const result = await cartServiceMongo.createCart(newCart)
         if (!result) {
-            return res.status(400).send({ status: "Error", message: { error: "No se pudo agregar ningun producto" }, });
+            return res.status(400).send({ status: "Error", message: { error: "No se pudo agregar ningun producto" }});
         }
 
         res.send({
@@ -107,7 +107,7 @@ router.put('/:cid/:pid', async (req, res) => {
 
             return res.status(400).send({
                 status: "Error",
-                message: { error: "no se pudo actualizar el carrito" },
+                message: { error: "no se pudo actualizar el carrito" }
             });
 
         }
@@ -135,7 +135,7 @@ router.delete('/:cid', async (req, res) => {
 
             return res.status(400).send({
                 status: "Error",
-                message: { error: "no se pudo eliminar el carrito" },
+                message: { error: "no se pudo eliminar el carrito" }
             });
 
         }

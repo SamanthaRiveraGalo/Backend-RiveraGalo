@@ -9,7 +9,7 @@ const productService = new ProductDaoMongo()
 //RUTA CON HANDLEBARS
 router.get('/', async (req, res) => {
 
-    const products = await managerService.getProducts()
+    const products = await productService.getProducts()
 
     res.render('index', { products })
 

@@ -45,8 +45,9 @@ socket.on('update-products', (productsList) => {
     });
 });
 
-//este deleteProduct es una funcion que llamo en el button onclick
+//Funcion Onlick
 function deleteProduct(productId) {
+    
     socket.emit('delete-product', productId)
 
 }

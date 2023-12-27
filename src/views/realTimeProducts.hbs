@@ -21,7 +21,7 @@
                 <li>
                     <p> Nombre: {{this.title}} </p>
                     <p> Codigo: {{this.code}} </p>
-                    <button onclick="deleteProduct('{{this._id}}')">Eliminar</button>
+                    <button id={{this._id}} onclick="deleteProduct(id)">Eliminar</button>
                 </li>
                 {{/each}}
             </ul>
