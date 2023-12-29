@@ -23,21 +23,6 @@ router.get('/', async (req, res) => {
     } catch (error) {
         console.log(error)
     }
-    // try {
-
-    //     const cid = req.params.cid;
-    //     const cartById = await cartsService.getCartById(cid);
-
-    //     if (cartById) {
-    //         res.status(200).json(cartById);
-    //     }
-    //     else {
-    //         res.status(404).send('No se encontró ningún carrito!')
-    //     }
-
-    // } catch (error) {
-    //     console.log(error)
-    // }
 })
 
 router.get('/:cid', async (req, res) => {
@@ -47,7 +32,7 @@ router.get('/:cid', async (req, res) => {
         const cartId = req.params.cid;
 
         const carts = await cartServiceMongo.getCartById(cartId);
-     
+
 
         if (!carts) {
             return res.status(404).send({
@@ -70,7 +55,7 @@ router.post('/', async (req, res) => {
 
         const result = await cartServiceMongo.createCart(newCart)
         if (!result) {
-            return res.status(400).send({ status: "Error", message: { error: "No se pudo agregar ningun producto" }});
+            return res.status(400).send({ status: "Error", message: { error: "No se pudo agregar ningun producto" } });
         }
 
         res.send({
@@ -81,29 +66,17 @@ router.post('/', async (req, res) => {
     } catch (error) {
         console.log(error);
     }
-    // try {
-    //     console.log(req.body)
-    //     const newCart = await cartsService.createCart()
 
-    //     res.status(200).json({
-    //         status: "ok",
-    //         data: newCart
-    //     })
-
-    // } catch (error) {
-    //     console.log(error)
-    // }
 })
 
-router.put('/:cid/:pid', async (req, res) => {
+router.post('/:cid/products/:pid', async (req, res) => {
     try {
 
         const cartId = req.params.cid;
         const prodId = req.params.pid;
 
-        const cartUpdate = await cartServiceMongo.updateCart(cartId, prodId);
-
-        if (!cartUpdate) {
+        const cart = await cartServiceMongo.AddProductToCart(cartId, prodId);
+        if (!cart) {
 
             return res.status(400).send({
                 status: "Error",
@@ -114,22 +87,57 @@ router.put('/:cid/:pid', async (req, res) => {
 
         return res.status(200).send({
             status: "Success",
-            payload: cartUpdate,
+            payload: cart,
+        });
+
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+router.put('/:cid', async (req, res) => {
+    try {
+        const cartId = req.params.cid;
+        const prod = req.body
+
+        const update = await cartServiceMongo.updateCart(cartId, prod)
+
+        return res.status(200).send({
+            status: "Success",
+            payload: update,
         });
 
 
-
     } catch (error) {
-        console.log(error);
+        console.log(error)
     }
-});
+})
 
-// **DELETE**
+router.put('/:cid/products/:pid', async(req,res)=>{
+    try {
+        const cartId = req.params.cid;
+        const prodId = req.params.pid;
+        const quantity = req.body.quantity;
+
+        const updateCart = await cartServiceMongo.updateQuantity(cartId,prodId,quantity)
+
+        return res.status(200).send({
+            status: "Success",
+            payload: updateCart,
+        });
+
+        
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+
 router.delete('/:cid', async (req, res) => {
     try {
         const cartId = req.params.cid;
 
-        const deleteCart = await cartServiceMongo.deleteCart(cartId);
+        const deleteCart = await cartServiceMongo.deleteAllProducts(cartId);
 
         if (!deleteCart) {
 
@@ -149,6 +157,33 @@ router.delete('/:cid', async (req, res) => {
         console.log(error);
     }
 });
+
+router.delete('/:cid/products/:pid', async (req, res) => {
+    try {
+        const cartId = req.params.cid;
+        const prodId = req.params.pid;
+
+        const deleteProduct = await cartServiceMongo.deleteProduct(cartId, prodId)
+
+        if (!deleteProduct) {
+
+            return res.status(400).send({
+                status: "Error",
+                message: { error: "no se pudo eliminar el producto del carrito" }
+            });
+
+        }
+
+        return res.status(200).send({
+            status: "Success",
+            payload: deleteProduct,
+        });
+
+    } catch (error) {
+        console.log(error)
+    }
+})
+
 
 
 module.exports = router
