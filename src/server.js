@@ -9,8 +9,13 @@ const cartRouter = require('./routes/carts.router.js')
 const userRouter = require('./routes/users.router.js')
 const viewsRouter = require('./routes/views.router.js')
 const chatRouter = require('./routes/chat.router.js')
+const sessionsRouter = require('./routes/sessions.router.js')
 const ChatMassage = require('./dao/managerMongo/chatManagerMongo.js')
 const ProductDaoMongo = require('./dao/managerMongo/productManagerMongo.js')
+const cookieParser = require('cookie-parser')
+const session = require('express-session')
+const FileStore = require('session-file-store')
+const MongoStore = require('connect-mongo')
 const massageManager = new ChatMassage()
 const productService = new ProductDaoMongo()
 
@@ -28,7 +33,38 @@ connectDb()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(__dirname + '/public'))
-
+app.use(cookieParser('p@l@br@Secret@')) //firma de la cookie
+// app.use(session({
+//   secret: 'palabraSecreta',
+//   resave:true,
+//   saveUninitialized:true
+// }))
+// const fileStore = new FileStore(session)
+// app.use(session({
+//   store: new fileStore({ 
+//     path: './src/sessions',
+//     ttl: 100, //tiempo
+//     retire: 0
+//   }), //en esta direccion se almacenan los archivos
+//   secret: 'palabraSecreta',
+//   resave: true,
+//   saveUninitialized: true
+// }))
+//con mongo 
+app.use(session({
+  store:MongoStore.create({
+    mongoUrl:'mongodb+srv://SamanthaRG:Nina1808@cluster0.lwkzqk6.mongodb.net/ecommerce?retryWrites=true&w=majority',
+    mongoOptions: {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    },
+    ttl:160,
+  }),
+  secret: 'palabraSecreta',
+  resave: true,
+  saveUninitialized: true
+}))
+//que mantenga la session (resave) y que lo guarde (saveUninitialized)
 
 //MOTOR DE PLANTILLA
 app.engine('hbs', handlebars.engine({
@@ -45,6 +81,7 @@ app.use('/views', chatRouter)
 app.use('/api/products', productsRouter)
 app.use('/api/carts', cartRouter)
 app.use('/api/users', userRouter)
+app.use('/api/sessions', sessionsRouter)
 
 
 // ejemplo en consola para saber que se levanto el servidor y que esta escuchando en el puerto 8080

@@ -1,5 +1,29 @@
 <div class="conteiner">
     <h1 class="title">Productos</h1>
+    <div>
+    
+        {{#if user}}
+        {{#eq user.role 'admin'}}
+        <div class="welcome">
+            <p>Bienvenido Admin!</p>
+            <form action="/api/sessions/logout" method="post">
+            <button type="submit">
+                <a>Cerrar Sessión</a>
+            </button>
+        </form>
+        </div>
+        {{else}}
+        <div class="welcome">
+            <p>Bienvenido {{user.first_name}} {{user.last_name}} !</p>
+            <form action="/api/sessions/logout" method="post">
+            <button type="submit">
+                <a>Cerrar Sessión</a>
+            </button>
+        </form>
+        </div>
+        {{/eq}}
+        {{/if}}
+    </div>
     <div class="row conteiner-products" style="column-gap: 1rem; row-gap: 1rem;">
         {{#each products}}
         <div class="col-md-4 card-product">

@@ -46,7 +46,7 @@ class CartDaoMongo {
 
             const updatedCart = await this.model.findOneAndUpdate(
                 { _id: cid },
-                { product: prods },
+                { $push: { products: prods } },
                 { new: true }
             );
 
@@ -57,26 +57,17 @@ class CartDaoMongo {
         }
 
     }
-    //revisar
+
     async updateQuantity(cid, pid, quantity) {
+
         try {
 
-            const cart = await this.model.findOne({ _id: cid });
+            const cart = await this.model.updateOne(
+                { _id: cid, "products._id": pid },
+                { $inc: { "products.$.quantity": quantity } }
+            )
 
-            if (!cart) {
-                console.log('carrito no encontrado')
-            }
-
-            const productToUpdate = cart.products.find(product => product._id === pid);
-
-            if (!productToUpdate) {
-                console.log('producto no encontrado')
-            }
-
-            productToUpdate.quantity = quantity;
-            await cart.save();
-            return cart;
-
+            return { success: 'succes', payload: cart }
         } catch (error) {
             console.error(error);
         }
@@ -84,26 +75,26 @@ class CartDaoMongo {
 
     deleteAllProducts = async (cid) => {
         try {
-            
+
             const cart = await this.model.findOne({ _id: cid });
 
-          if (!cart){
-            console.log('no se encontro el carrito')
-          }
-    
-    
-          cart.products = [];
-    
-          const updatedCart = await cart.save();
-    
-          return updatedCart;
+            if (!cart) {
+                console.log('no se encontro el carrito')
+            }
+
+
+            cart.products = [];
+
+            const updatedCart = await cart.save();
+
+            return updatedCart;
 
         } catch (error) {
-          console.log(error) ;
+            console.log(error);
         }
-      }
+    }
 
-    //eliminar un producto o una cantidad del producto del carrito 
+    //eliminar un producto 
     async deleteProduct(cid, pid) {
         try {
 

@@ -64,6 +64,7 @@ router.get('/products', async (req, res) => {
     }
 
 })
+
 //DETALLE DE UN PRODUCTO
 
 router.get('/products/:pid', async (req, res) => {
@@ -95,6 +96,20 @@ router.get('/cart/:cid', async (req,res)=>{
     const cart = await cartService.getCartById(cid)
 
     res.status(200).render('cart', cart)
+})
+
+//VISTA LOGIN - REGISTER Y PROFILE
+
+router.get('/register', async(req,res)=>{
+    res.render('register')
+})
+
+router.get('/login', async(req,res)=>{
+    res.render('login')
+})
+// ya veo este bien
+router.get('/profile', async(req,res)=>{
+    res.render('profile')
 })
 
 

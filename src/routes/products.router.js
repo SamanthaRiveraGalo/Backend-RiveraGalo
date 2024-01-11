@@ -11,19 +11,7 @@ const productServiceMongo = new ProductDaoMongo()
 
 
 router.get("/", async (req, res) => {
-    // try {
 
-    //     const products = await productServiceMongo.getProducts()
-
-    //     if (!products) {
-    //         return res.status(404).send({ status: "Error", error: "productos no encontrados", });
-    //     }
-
-    //     return res.status(200).send({ status: "Success", payload: products });
-
-    // } catch (error) {
-    //     console.log(error)
-    // }
     try {
 
         const limit = req.query.limit;
