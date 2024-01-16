@@ -1,11 +1,21 @@
-<section>
+<div>
     <h1>Registro</h1>
-    
-    <form action="/api/sessions/register" method="POST" class="form-register">
-        <input type="text" name="first_name" placeholder="Nombre">
-        <input type="text" name="last_name" placeholder="Apellido">
-        <input type="text" name="email" placeholder="Email">
-        <input type="text" name="password" placeholder="Contraseña">
-        <button>Registrarse</button>
+    <form id="registerForm">
+
+        <label>Nombre</label>
+        <input name="first_name">
+       
+        <label>Apellido</label>
+        <input name="last_name">
+       
+        <label>Email</label>
+        <input name="email">
+        
+        <label>Contraseña</label>
+        <input name="password">
+
+        <input type="submit">
     </form>
-</section>
+    <p>¿Ya tienes una cuenta? <a  href="/views/login">Ingresa aquí</a></p>
+</div>
+<script src="/js/register.js"></script>

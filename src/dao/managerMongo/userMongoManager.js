@@ -10,6 +10,10 @@ class User {
         return await this.model.find()
     }
 
+    async getUserBy (filter){
+        return await this.model.findOne(filter)
+    }
+
     async getUserByEmail ( uemail ){
         return await this.model.findOne({email: uemail})
     }

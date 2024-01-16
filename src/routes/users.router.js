@@ -1,11 +1,14 @@
 const { Router } = require('express')
-const { userModel } = require('../dao/models/users.model')
+// const { userModel } = require('../dao/models/users.model')
+const userMongoManager = require('../dao/managerMongo/userMongoManager')
 
 const router = Router()
 
+const userServiceMongo = new userMongoManager()
+
 
 router.get('/', async (req, res) => {
-    const users = await userModel.find()
+    const users = await userServiceMongo.find()
     res.send(users)
 })
 
@@ -13,7 +16,7 @@ router.post('/', async (req, response) => {
     try {
 
         const { first_name, last_name, email } = req.body
-        const result = await userModel.create({
+        const result = await userServiceMongo.create({
             first_name,
             last_name,
             email
@@ -34,7 +37,7 @@ router.put('/:uid', async (req, res) => {
     const { uid } = req.params
     const userToReplace = req.body
 
-    const result = await userModel.updateOne({ _id: uid}, userToReplace )
+    const result = await userServiceMongo.updateUser( uid, userToReplace )
 
     res.status(201).send({
         status:'succes',
@@ -43,17 +46,10 @@ router.put('/:uid', async (req, res) => {
 })
 
 // DELETE localhost:8080  /api/users /:uid
-router.delete('/:uid', (req, res) => {
+router.delete('/:uid', async (req, res) => {
     const { userId } = req.params
-
-    let arrayTamanno = arrayUsuarios.length
-    console.log(arrayTamanno)
-    let users = arrayUsuarios.filter(user => user.id !== userId)
-    console.log(users.length)
-    if (users.length === arrayTamanno) {
-        res.status(404).send({ message: "Usuario no encontrado" })
-    }
-    res.status(200).send({ message: "Usuario borrado", users })
+    const result = await userServiceMongo.deleteUSer(userId)
+    res.status(200).send({ message: "Usuario borrado", result })
 })
 
 module.exports = router

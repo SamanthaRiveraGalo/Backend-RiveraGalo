@@ -18,6 +18,9 @@ const FileStore = require('session-file-store')
 const MongoStore = require('connect-mongo')
 const massageManager = new ChatMassage()
 const productService = new ProductDaoMongo()
+//passport
+const passport = require('passport')
+const { initializePassport } = require('./config/passport.config.js')
 
 const app = express()
 const port = 8080
@@ -29,17 +32,19 @@ const connectDb = async () => {
 }
 connectDb()
 
-
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(__dirname + '/public'))
 app.use(cookieParser('p@l@br@Secret@')) //firma de la cookie
+
 // app.use(session({
 //   secret: 'palabraSecreta',
 //   resave:true,
 //   saveUninitialized:true
 // }))
+
 // const fileStore = new FileStore(session)
+
 // app.use(session({
 //   store: new fileStore({ 
 //     path: './src/sessions',
@@ -50,6 +55,7 @@ app.use(cookieParser('p@l@br@Secret@')) //firma de la cookie
 //   resave: true,
 //   saveUninitialized: true
 // }))
+
 //con mongo 
 app.use(session({
   store:MongoStore.create({
@@ -64,7 +70,17 @@ app.use(session({
   resave: true,
   saveUninitialized: true
 }))
-//que mantenga la session (resave) y que lo guarde (saveUninitialized)
+
+//MIDDLEWARE PASSPORT
+initializePassport()
+
+// app.use(session({
+//   secret: 'p@l@br@Secret@'
+// }))
+
+app.use(passport.initialize())
+app.use(passport.session())
+
 
 //MOTOR DE PLANTILLA
 app.engine('hbs', handlebars.engine({
