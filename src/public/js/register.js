@@ -31,7 +31,7 @@ form.addEventListener('submit', (e) => {
 
     console.log(first_name)
 
-    fetch('http://localhost:8080/api/sessions/register', {
+    fetch('/api/sessions/register', {
         method: 'POST',
         headers: {
             'Content-Type': 'Application/json'

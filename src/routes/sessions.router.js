@@ -22,7 +22,6 @@ router.post('/register', passport.authenticate('register', { failureRedirect: '/
 
 router.get('/failregister', (req, res) => {
 
-    console.log(req.body)
     res.send({ status: 'error', error: 'failed' })
 
 })
