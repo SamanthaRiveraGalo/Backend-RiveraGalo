@@ -2,20 +2,20 @@
     <h1>Registro</h1>
     <form id="registerForm">
 
-        <label>Nombre</label>
-        <input name="first_name">
-       
-        <label>Apellido</label>
-        <input name="last_name">
-       
-        <label>Email</label>
-        <input name="email">
-        
-        <label>Contraseña</label>
-        <input name="password">
+        <label for="firstName">Nombre</label>
+        <input type="text" id="firstName" />
+
+        <label for="lastName">Apellido</label>
+        <input type="text" id="lastName" />
+
+        <label for="email">Email</label>
+        <input type="text" id="email" />
+
+        <label for="password">Contraseña</label>
+        <input type="text" id="password" />
 
         <input type="submit">
     </form>
-    <p>¿Ya tienes una cuenta? <a  href="/views/login">Ingresa aquí</a></p>
+    <p>¿Ya tienes una cuenta? <a href="/views/login">Ingresa aquí</a></p>
 </div>
 <script src="/js/register.js"></script>
