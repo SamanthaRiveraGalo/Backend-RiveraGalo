@@ -8,9 +8,20 @@ const userServiceMongo = new userMongoManager()
 
 
 router.get('/', async (req, res) => {
-    const users = await userServiceMongo.find()
+    const users = await userServiceMongo.getUser()
     res.send(users)
 })
+
+router.get('/:email', async (req, res) => {
+    const {email} = req.params;
+
+    try {
+        const user = await userServiceMongo.getUserBy({ email });
+        res.json(user);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+});
 
 router.post('/', async (req, response) => {
     try {
@@ -37,10 +48,10 @@ router.put('/:uid', async (req, res) => {
     const { uid } = req.params
     const userToReplace = req.body
 
-    const result = await userServiceMongo.updateUser( uid, userToReplace )
+    const result = await userServiceMongo.updateUser(uid, userToReplace)
 
     res.status(201).send({
-        status:'succes',
+        status: 'succes',
         payload: result
     })
 })

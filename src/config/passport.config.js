@@ -1,12 +1,11 @@
 const passport = require('passport')
 const local = require('passport-local')
-// const userModel = require('../dao/models/users.model')
 const User = require('../dao/managerMongo/userMongoManager')
 const { createHash, isValidPassword } = require('../utils/hashPassword')
 const userService = new User()
 const GithubStrategy = require('passport-github2')
 
-const LocalStrategy = local.Strategy//instanciando la clase
+const LocalStrategy = local.Strategy
 
 exports.initializePassport = () => {
 
@@ -54,25 +53,27 @@ exports.initializePassport = () => {
     }, async (req, username, password, done) => {
 
         try {
-
+            console.log('ingresa a la estrategia')
             const { firts_name, last_name, email } = req.body
             let userFound = await userService.getUserBy({ email: username })
             console.log(userFound)
 
-            if (userFound) returndone(null, false)
+            if (userFound) return done(null, false)
 
             let newUser = {
                 firts_name,
                 last_name,
                 email: username,
+                role: 'user',
                 password: createHash(password)
             }
+
             let result = await userService.createUser(newUser)
-            console.log(result)
 
             return done(null, result)
 
         } catch (error) {
+            console.log('entra al catch')
             return done('No se pudo crear el usuario' + error)
         }
     }))

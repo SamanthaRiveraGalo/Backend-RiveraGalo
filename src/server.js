@@ -37,25 +37,6 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.static(__dirname + '/public'))
 app.use(cookieParser('p@l@br@Secret@')) //firma de la cookie
 
-// app.use(session({
-//   secret: 'palabraSecreta',
-//   resave:true,
-//   saveUninitialized:true
-// }))
-
-// const fileStore = new FileStore(session)
-
-// app.use(session({
-//   store: new fileStore({ 
-//     path: './src/sessions',
-//     ttl: 100, //tiempo
-//     retire: 0
-//   }), //en esta direccion se almacenan los archivos
-//   secret: 'palabraSecreta',
-//   resave: true,
-//   saveUninitialized: true
-// }))
-
 //con mongo 
 app.use(session({
   store:MongoStore.create({

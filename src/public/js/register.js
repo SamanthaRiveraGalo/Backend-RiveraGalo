@@ -17,39 +17,56 @@
 //         }
 //     });
 // });
-const form = document.getElementById('registerForm');
 
-form.addEventListener('submit', e => {
+// const form = document.getElementById('registerForm');
+// form.addEventListener('submit', e => {
+//     e.preventDefault();
+
+//     const formData = new FormData(form);
+
+//     console.log(formData)
+
+//     fetch('http://localhost:8080/api/sessions/register', {
+//         method: 'POST',
+//         body: formData
+//     }).then(result => {
+//         console.log(result)
+//         if (result.status === 200) {
+//             window.location.href = '/views/login';
+//         }
+//     }).catch((error) => {
+//         alert(`Ha ocurrido un error al intentar registrar su usuario: ${error}`)
+//     })
+// });
+const form = document.getElementById('registerForm');
+form.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    const formData = new FormData(form);
+    const first_name = document.getElementById('first_name').value;
+    const last_name = document.getElementById('last_name').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
 
-    const firstName = document.getElementById('firstName')
-    const lastName = document.getElementById('lastName')
-    const email = document.getElementById('email')
-    const password = document.getElementById('password')
-
-    const firstNameValue = firstName.value.trim()
-    const lastNameValue = lastName.value.trim()
-    const emailValue = email.value.trim()
-    const passwordValue = password.value.trim()
-
-    const newUser = {
-        first_name: firstNameValue,
-        last_name: lastNameValue,
-        email: emailValue,
-        password: passwordValue
-    }
+    console.log(first_name)
 
     fetch('/api/sessions/register', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'Application/json'
         },
-        body: JSON.stringify(newUser)
+        body: JSON.stringify({
+            first_name,
+            last_name,
+            email,
+            password
+        })
     }).then(result => {
+        console.log(result)
         if (result.status === 200) {
-            window.location.replace('/views/login');
+            window.location.href = '/views/login';
         }
-    });
-});
+    }).catch((error) => {
+        alert(`Ha ocurrido un error al intentar registrar su usuario: ${error}`)
+    })
+
+})

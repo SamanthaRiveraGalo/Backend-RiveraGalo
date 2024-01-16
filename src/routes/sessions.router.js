@@ -16,14 +16,13 @@ router.get('/github', passport.authenticate('github', { scope: ['user:email'] })
 router.get('/githubcallback', passport.authenticate('github', { failureRedirect: '/login' }), (req, res) => {
     req.session.user = req.user
     res.redirect('/views/products')
-
 })
 
-router.post('register', passport.authenticate('register', { failureRedirect: '/api/sessions/failregister' }))//aca creo que se confundio el profe y redirect como el de abajo
+router.post('/register', passport.authenticate('register', { failureRedirect: '/api/sessions/failregister' }))
 
 router.get('/failregister', (req, res) => {
 
-    console.log('fail strategy')
+    console.log(req.body)
     res.send({ status: 'error', error: 'failed' })
 
 })
