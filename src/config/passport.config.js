@@ -70,11 +70,11 @@ exports.initializePassport = () => {
 
             let result = await userService.createUser(newUser)
 
-            return done(null, result)
+            return done (null, result)
 
         } catch (error) {
             console.log('entra al catch')
-            return done('No se pudo crear el usuario' + error)
+            return done ('No se pudo crear el usuario' + error)
         }
     }))
 
