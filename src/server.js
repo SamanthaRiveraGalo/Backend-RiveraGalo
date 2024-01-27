@@ -54,13 +54,14 @@ app.use(session({
 
 //MIDDLEWARE PASSPORT
 initializePassport()
+app.use(passport.initialize())
 
 // app.use(session({
 //   secret: 'p@l@br@Secret@'
 // }))
 
-app.use(passport.initialize())
-app.use(passport.session())
+// app.use(passport.initialize())
+// app.use(passport.session())
 
 
 //MOTOR DE PLANTILLA

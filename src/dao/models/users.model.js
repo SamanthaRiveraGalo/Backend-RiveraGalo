@@ -3,7 +3,7 @@ const { Schema, model } = require('mongoose')
 const userCollection = 'users'
 
 const UserSchema = Schema({
-    
+
     first_name: {
         type: String,
         required: true
@@ -27,6 +27,8 @@ const UserSchema = Schema({
         type: String,
         // required: true, 
     },
+
+    cart: [{type: Schema.Types.ObjectId,ref: 'carts',}]
 })
 
 const userModel = model(userCollection, UserSchema)

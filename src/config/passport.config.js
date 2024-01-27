@@ -1,13 +1,39 @@
 const passport = require('passport')
-const local = require('passport-local')
 const User = require('../dao/managerMongo/userMongoManager')
+const local = require('passport-local')
 const { createHash, isValidPassword } = require('../utils/hashPassword')
-const userService = new User()
-const GithubStrategy = require('passport-github2')
+const GithubStrategy = require('passport-github2') //ya no usamos
+const jwt = require('passport-jwt')
 
 const LocalStrategy = local.Strategy
+const userService = new User()
+const JWTStrategy = jwt.Strategy
+const ExtractJWT = jwt.ExtractJwt //para extraer las cookies
 
 exports.initializePassport = () => {
+
+    const coookieExtractor = req =>{
+        let token = null
+        if(req && req.cookies){
+            token = req.cookies['token']
+        }
+        return token
+    }
+    
+    passport.use('jwt', new JWTStrategy({
+        jwtFromRequest: ExtractJWT.fromExtractors([coookieExtractor]),
+        secretOrKey: 'CoderSecretoJsonWebToken'
+        //misma palabra secreta que esta en el archivo jwt
+    }, async (jwt_payload, done)=>{
+        try {
+            console.log('jwtpayload passport config:', jwt_payload)
+            return done (null, jwt_payload)
+        } catch (error) {
+            return done(error)
+        }
+    }))
+
+    // GITHUB
 
     passport.use('github', new GithubStrategy({
         clientID: 'Iv1.f832a7e8bc5ff041',
@@ -45,7 +71,7 @@ exports.initializePassport = () => {
     })
 
 
-    passport.use('register', new LocalStrategy({
+    passport.use('registergithub', new LocalStrategy({
         //para acepte la llamada del req
         passReqToCallback: true,
         //cambiamos el nombre por que no tenemos username
@@ -82,7 +108,7 @@ exports.initializePassport = () => {
     }))
 
 
-    passport.use('login', new LocalStrategy({
+    passport.use('logingithub', new LocalStrategy({
         usernameField: 'email'
 
     }, async (username, password, done) => {
@@ -105,4 +131,5 @@ exports.initializePassport = () => {
             return done(error)
         }
     }))
+    
 }
