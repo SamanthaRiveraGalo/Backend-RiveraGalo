@@ -1,19 +1,25 @@
-<div>
-    <h1>Login</h1>
-    <form id="loginForm">
-        <label>Email</label>
-        <input name="email">
+<main class="conteiner">
+    <div class="conteiner-login">
+        <div class="conteiner-img">
+            <img src="https://nikearprod.vtexassets.com/arquivos/ids/702470-800-800?v=638233921673300000&width=800&height=800&aspect=true"
+                alt="">
+        </div>
+        <div class="conteiner-form">
+            <h1 class="login">Login</h1>
+            <form id="loginForm">
+                <label>Email</label>
+                <input name="email">
 
-        <label>Contraseña</label>
-        <input name="password" type="text">
+                <label>Contraseña</label>
+                <input name="password" type="text">
 
-        <input type="submit">
-    </form>
+                <input type="submit">
+            </form>
+            <a class="btn btn-outline-dark" href="/api/sessions/github">GitHub <i class="fa-brands fa-github"></i></a>
+            <p>¿No estas registrado? <a href="/views/register">Registrate Aquí</a></p>
+        </div>
 
-    <a class="btn btn-outline-dark" href="/api/sessions/github">GitHub <i class="fa-brands fa-github"></i></a>
-
-
-    <p>¿No estas registrado? <a href="/views/register">Registrate Aquí</a></p>
-</div>
+    </div>
+</main>
 
 <script src="/js/login.js"></script>

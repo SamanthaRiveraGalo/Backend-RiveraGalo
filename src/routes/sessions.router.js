@@ -36,7 +36,7 @@ router.post('/register', async (req, res) => {
 
         const result = await userManager.createUser(newUser)
 
-        const token = createToken({ id: result._id})
+        const token = createToken({ id: result._id })
 
         console.log(token)
 
@@ -66,34 +66,22 @@ router.post('/login', async (req, res) => {
             return res.status(404).json({ error: "Por favor ingrese todos los datos" });
         }
 
-        if (email === 'adminCoder@coder.com' && password === '1234') {
+        const user = await userManager.getUserByEmail(email)
 
-            req.session.user = {
-                name: 'coder',
-                role: 'admin'
-            }
-
-            res.redirect('/views/products')
-
-        } else {
-
-            const user = await userManager.getUserByEmail(email)
-
-            if(!isValidPassword(user, password)){
-                return res.send('email o contraseña incorrecta')
-            }
-
-            const token = createToken({ id: user._id, role: user.role })
-            console.log(token)
-
-            res.cookie('token', token, {
-                maxAge: 60 * 60 * 1000 * 24,
-                httpOnly: true,
-            }).json({
-                status: 'succes',
-                message: 'logged in'
-            })
+        if (!isValidPassword(user, password)) {
+            return res.send('email o contraseña incorrecta');
         }
+
+        const token = createToken({ id: user._id, role: user.role });
+
+        res.cookie('token', token, {
+            maxAge: 60 * 60 * 1000 * 24,
+            httpOnly: true,
+        }).json({
+            status: 'success',
+            message: 'logged in',
+            redirectTo: 'views/products'
+        });
 
     } catch (error) {
         console.log(error)
@@ -103,7 +91,7 @@ router.post('/login', async (req, res) => {
 
 
 //una ruta para probar que funciona bien
-router.get('/current',[ passsportCall('jwt'),authorizationJwt(['ADMIN'])],(req,res) => {
+router.get('/current', [passsportCall('jwt'), authorizationJwt(['ADMIN'])], (req, res) => {
     res.send('informacion sensible que solo puede ver el admin')
 })
 
@@ -136,7 +124,7 @@ router.post('/logingithub', passport.authenticate('login', { failureRedirect: '/
         first_name: req.user.first_name
     }
 
-    res.send({status:'succes', message: 'login exitoso'})
+    res.send({ status: 'succes', message: 'login exitoso' })
 })
 
 router.get('/faillogin', (req, res) => {

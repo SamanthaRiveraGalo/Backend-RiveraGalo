@@ -2,7 +2,7 @@ const express = require('express')
 const handlebars = require('express-handlebars')
 const { Server } = require('socket.io')
 //mongoose
-const { connect } = require('mongoose')
+const { connectDb } = require('./database/database.js')
 
 const productsRouter = require('./routes/products.router.js')
 const cartRouter = require('./routes/carts.router.js')
@@ -14,7 +14,6 @@ const ChatMassage = require('./dao/managerMongo/chatManagerMongo.js')
 const ProductDaoMongo = require('./dao/managerMongo/productManagerMongo.js')
 const cookieParser = require('cookie-parser')
 const session = require('express-session')
-const FileStore = require('session-file-store')
 const MongoStore = require('connect-mongo')
 const massageManager = new ChatMassage()
 const productService = new ProductDaoMongo()
@@ -25,11 +24,6 @@ const { initializePassport } = require('./config/passport.config.js')
 const app = express()
 const port = 8080
 
-//conexion con MONGO
-const connectDb = async () => {
-  await connect('mongodb+srv://SamanthaRG:Nina1808@cluster0.lwkzqk6.mongodb.net/ecommerce?retryWrites=true&w=majority')
-  console.log('Base de datos conectada')
-}
 connectDb()
 
 app.use(express.json())
@@ -60,10 +54,6 @@ app.use(passport.initialize())
 //   secret: 'p@l@br@Secret@'
 // }))
 
-// app.use(passport.initialize())
-// app.use(passport.session())
-
-
 //MOTOR DE PLANTILLA
 app.engine('hbs', handlebars.engine({
   extname: '.hbs'
@@ -88,7 +78,6 @@ const serverHttp = app.listen(port, () => {
 });
 
 const io = new Server(serverHttp)
-
 
 io.on("connection", socket => {
 
@@ -143,8 +132,6 @@ io.on("connection", socket => {
     } catch (error) {
       console.error('Error al guardar o emitir mensajes:', error);
     }
-
-
   })
 
 });

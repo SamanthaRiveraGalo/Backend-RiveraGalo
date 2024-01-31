@@ -3,7 +3,7 @@ const { Router } = require('express')
 const ProductDaoMongo = require('../dao/managerMongo/productManagerMongo')
 const CartDaoMongo = require('../dao/managerMongo/cartManagerMongo')
 const User = require('../dao/managerMongo/userMongoManager')
-// const { publicAccess, privateAccess } = require('../middlewars/auth.middlewars')
+const { publicAccess, privateAccess } = require('../middlewars/auth.middlewars')
 const userManager = new User()
 
 const router = Router()
@@ -13,17 +13,6 @@ const cartService = new CartDaoMongo()
 
 
 //VISTA LOGIN - REGISTER Y PROFILE
-
-//middlewars
-const publicAccess = (req, res, next) => {
-    if(req.session.user) return res.redirect('/views/products');// verifica que el usuario este conectado
-    next();
-};
-
-const privateAccess = (req, res, next) => {
-    if(!req.session.user) return res.redirect('/views/login');
-    next();
-};
 
 router.get('/register', publicAccess, (req,res)=>{
     res.render('register')

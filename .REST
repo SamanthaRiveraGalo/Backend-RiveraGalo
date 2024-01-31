@@ -77,4 +77,17 @@ GET http://localhost:8080/api/users
 GET http://localhost:8080/api/users/samirivera1808@gmail.com
 
 
+-------admin---
+###
+POST http://localhost:8080/api/sessions/register
+Content-Type: application/json
+
+{
+    "first_name": "coder",
+    "last_name": "admin",
+    "email": "adminCoder@coder.com",
+    "password": "1234",
+    "role": "admin"
+}
+
 
