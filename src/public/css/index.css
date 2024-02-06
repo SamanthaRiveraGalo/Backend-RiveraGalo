@@ -35,12 +35,38 @@ img {
     justify-content: center;
     padding: 3rem;
 }
-.conteiner-login{
+.conteiner-login, .conteiner-register{
     width: 60%;
     border: 1px solid black;
     border-radius: 10px;
-    padding: 5rem;
+    padding: 3rem;
     display: flex;
     flex-direction: row;
+    column-gap: 2rem;
 }
+
+.conteiner-img{
+    width: 20rem;
+}
+
+.nike-logo{
+    width: 100%;
+}
+
+.conteiner-form, #loginForm, #registerForm{
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+}
+
+p > a{
+
+    text-decoration: none;
+}
+
+/* Register */
+
+
+
+
 

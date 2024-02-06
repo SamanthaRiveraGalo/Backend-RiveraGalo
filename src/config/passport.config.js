@@ -4,6 +4,7 @@ const local = require('passport-local')
 const { createHash, isValidPassword } = require('../utils/hashPassword')
 const GithubStrategy = require('passport-github2') //ya no usamos
 const jwt = require('passport-jwt')
+const { configObject } = require('.')
 
 const LocalStrategy = local.Strategy
 const userService = new User()
@@ -22,7 +23,7 @@ exports.initializePassport = () => {
     
     passport.use('jwt', new JWTStrategy({
         jwtFromRequest: ExtractJWT.fromExtractors([coookieExtractor]),
-        secretOrKey: 'CoderSecretoJsonWebToken'
+        secretOrKey: configObject.jwt_secret_key
         //misma palabra secreta que esta en el archivo jwt
     }, async (jwt_payload, done)=>{
         try {
@@ -36,8 +37,8 @@ exports.initializePassport = () => {
     // GITHUB
 
     passport.use('github', new GithubStrategy({
-        clientID: 'Iv1.f832a7e8bc5ff041',
-        clientSecret: '0d8a0231fd415a1eade6ca81044fd784d57dc773',
+        clientID: configObject.gh_client_id,
+        clientSecret: configObject.gh_client_secret,
         callbackURL: 'http://localhost:8080/api/sessions/githubcallback'
     }, async (accesToken, refreshToken, profile, done) => {
         try {

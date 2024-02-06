@@ -3,7 +3,7 @@ GET http://localhost:8080/api/products
 //funciona
 
 ###
-GET http://localhost:8080/api/products/658383af3b801dcfe9bc2076
+GET http://localhost:8080/api/products/658383513b801dcfe9bc2075
 //funciona
 
 ###
@@ -12,11 +12,11 @@ POST http://localhost:8080/api/products
 Content-Type: application/json
 
 {
-"title": "Nike prueba","description": "sin","category":"mujer","price":150000 ,"thumbnail": "sin img","code": "A1","stock": 10
+"title": "Nike prueba singleton","description": "sin","category":"mujer","price":150000 ,"thumbnail": "sin img","code": "A481","stock": 10
 }
 
 ###
-PUT  http://localhost:8080/api/products/6583859a58d08e7dbe2535c1
+PUT  http://localhost:8080/api/products/65c01a81f8e99ca4d9f07eca
 //funciona
 
 {
@@ -24,7 +24,7 @@ PUT  http://localhost:8080/api/products/6583859a58d08e7dbe2535c1
 }
 
 ###
-DELETE  http://localhost:8080/api/products/65837fa63b801dcfe9bc2074
+DELETE  http://localhost:8080/api/products/65c01a81f8e99ca4d9f07eca
 
 //funciona
 
@@ -75,6 +75,8 @@ GET http://localhost:8080/api/users
 
 ###
 GET http://localhost:8080/api/users/samirivera1808@gmail.com
+
+###
 
 
 -------admin---

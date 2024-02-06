@@ -14,6 +14,7 @@ form.addEventListener('submit',e=>{
             'Content-Type':'application/json'
         }
     }).then(result=>{
+        console.log(result.status)
         if(result.status===200){
             window.location.replace('/views/products');
         }
