@@ -1,5 +1,7 @@
 const { Router } = require("express");
 const ProductController = require("../../controllers/products.controller");
+const { passsportCall } = require("../../utils/passportCall");
+const { authorizationJwt } = require("../../middlewars/jwtPassport.middleware");
 
 const {
     getsProducts,
@@ -16,10 +18,10 @@ router.get("/", getsProducts);
 
 router.get("/:pid", getProductId);
 
-router.post("/", createProduct);
+router.post("/", [passsportCall('jwt'), authorizationJwt(['ADMIN'])], createProduct);
 
-router.put("/:pid", updateProduct);
+router.put("/:pid", [passsportCall('jwt'), authorizationJwt(['ADMIN'])], updateProduct);
 
-router.delete("/:pid", deleteProduct);
+router.delete("/:pid", [passsportCall('jwt'), authorizationJwt(['ADMIN'])], deleteProduct);
 
 module.exports = router;

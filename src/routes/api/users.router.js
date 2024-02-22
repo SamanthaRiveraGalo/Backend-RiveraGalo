@@ -4,16 +4,16 @@ const UserController = require('../../controllers/user.controller');
 const router = Router()
 
 const {
-    getUser,
-    getUserByEmail,
+    getUsers,
+    getUserBy,
     createUser,
     updateUser,
     deleteUser
 } = new UserController()
 
-router.get('/', getUser)
+router.get('/', getUsers)
 
-router.get('/:email', getUserByEmail);
+router.get('/:email', getUserBy);
 
 router.post('/', createUser)
 

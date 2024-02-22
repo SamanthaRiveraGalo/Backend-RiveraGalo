@@ -1,18 +1,19 @@
-const userMongoManager = require('../dao/managerMongo/userMongoManager')
+const { usersService } = require("../repositories/index.js")
+
 
 class UserController {
 
     constructor() {
-        this.userServiceMongo =  new userMongoManager()
+        this.userServiceMongo = usersService
     }
 
-    getUser = async (req, res) => {
-        const users = await this.userServiceMongo.getUser()
+    getUsers = async (req, res) => {
+        const users = await this.userServiceMongo.getUsers()
         res.send(users)
     }
 
-    getUserByEmail = async (req, res) => {
-        const { email } = req.params;
+    getUserBy = async (req, res) => {
+        const  {email}  = req.params;
 
         try {
             const user = await this.userServiceMongo.getUserBy({ email });
@@ -20,20 +21,19 @@ class UserController {
         } catch (error) {
             res.status(404).json({ message: error.message });
         }
+       
     }
 
-    createUser = async (req, response) => {
+    createUser = async (req, res) => {
         try {
 
-            const { first_name, last_name, email } = req.body
-            const result = await this.userServiceMongo.create({
-                first_name,
-                last_name,
-                email
-            })
+            const { first_name, last_name, email, password } = req.body
 
-            console.log(first_name, last_name, email)
-            response.status(201).send({
+            const newUser = {first_name, last_name, email, password}
+
+            const result = await this.userServiceMongo.createUser(newUser)
+
+            res.status(201).send({
                 status: 'succes',
                 payload: result
             })
@@ -57,7 +57,7 @@ class UserController {
 
     deleteUser = async (req, res) => {
         const { userId } = req.params
-        const result = await this.userServiceMongo.deleteUSer(userId)
+        const result = await this.userServiceMongo.deleteUser(userId)
         res.status(200).send({ message: "Usuario borrado", result })
     }
 }

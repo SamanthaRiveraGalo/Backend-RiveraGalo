@@ -4,6 +4,11 @@ const userCollection = 'users'
 
 const UserSchema = Schema({
 
+    fullname:{
+        type:String,
+        required: true
+    },
+
     first_name: {
         type: String,
         required: true

@@ -7,6 +7,7 @@ const sessionsRouter = require('./api/sessions.router.js')
 
 const viewsRouter = require('./views.router.js')
 const chatRouter = require('./chat.router.js')
+const mailRouter = require('./api/mail.router.js')
 
 const router = Router()
 
@@ -14,11 +15,13 @@ const router = Router()
 router.use('/views', viewsRouter)
 router.use('/views', chatRouter)
 
+
 //API
 router.use('/api/products', productsRouter)
 router.use('/api/carts', cartRouter)
 router.use('/api/users', userRouter)
 router.use('/api/sessions', sessionsRouter)
+router.use('/api', mailRouter)
 
 
 module.exports = router

@@ -1,5 +1,5 @@
 const User = require("../dao/managerMongo/userMongoManager");
-const { isValidPassword } = require("../utils/hashPassword");
+const { isValidPassword, createHash } = require("../utils/hashPassword");
 const { createToken } = require("../utils/jwt");
 
 const userManager = new User()
@@ -17,7 +17,7 @@ class SessionsController {
                 return res.status(404).json({ error: "Por favor ingrese todos los datos" });
             }
 
-            const user = await userManager.getUserByEmail(email)
+            const user = await userManager.getUserBy({email: email})
 
             if (user) {
                 return res.send({ status: 'error', error: 'El email ya se encuentra registrado' })
@@ -61,13 +61,14 @@ class SessionsController {
                 return res.status(404).json({ error: "Por favor ingrese todos los datos" });
             }
 
-            const user = await userManager.getUserByEmail(email)
+            const user = await userManager.getUserBy({email: email})
 
             if (!isValidPassword(user, password)) {
                 return res.send('email o contraseña incorrecta');
             }
 
             const token = createToken({ id: user._id, role: user.role });
+            console.log(token)
 
             res.cookie('token', token, {
                 maxAge: 60 * 60 * 1000 * 24,
@@ -91,7 +92,7 @@ class SessionsController {
 
         res.redirect('/views/login')
     }
-    //router.get('/current', [passsportCall('jwt'), authorizationJwt(['ADMIN'])], (req, res) => 
+  
     current = (req, res) => {
         res.send('informacion sensible que solo puede ver el admin')
     }

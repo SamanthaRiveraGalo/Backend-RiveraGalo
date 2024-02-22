@@ -12,7 +12,7 @@ POST http://localhost:8080/api/products
 Content-Type: application/json
 
 {
-"title": "Nike prueba singleton","description": "sin","category":"mujer","price":150000 ,"thumbnail": "sin img","code": "A481","stock": 10
+"title": "Nike prueba 3","description": "sin","category":"mujer","price":150000 ,"thumbnail": "sin img","code": "A2581","stock": 10
 }
 
 ###
@@ -49,7 +49,7 @@ DELETE http://localhost:8080/api/carts/6583875458d08e7dbe2535c7/products/658c527
 //funciona
 
 ###
-DELETE http://localhost:8080/api/carts/6583875458d08e7dbe2535c7
+DELETE http://localhost:8080/api/carts/65838a2fa76ab3cf10efaca7
 //funciona
 
 ###
@@ -69,6 +69,17 @@ Content-Type: application/json
   "quantity": 2
 }
 
+//COMPRA
+###
+POST http://localhost:8080/api/carts/6583875458d08e7dbe2535c7/purchase
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YTZmMTk2NjFhYWUzZTc4MzNkZjFkNyIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzA4NjExMDIzLCJleHAiOjE3MDg2OTc0MjN9.gWEN71bkGNPYePZwgHNjlGt-4fGxYveAqKbILhkKlbU
+Content-Type: application/json
+
+{
+  "_id": "658383513b801dcfe9bc2075", "quantity": 2 
+}
+
+
 ------------------USER-------------------
 ###
 GET http://localhost:8080/api/users
@@ -77,19 +88,27 @@ GET http://localhost:8080/api/users
 GET http://localhost:8080/api/users/samirivera1808@gmail.com
 
 ###
-
-
--------admin---
-###
-POST http://localhost:8080/api/sessions/register
+POST http://localhost:8080/api/users
 Content-Type: application/json
 
 {
-    "first_name": "coder",
-    "last_name": "admin",
-    "email": "adminCoder@coder.com",
-    "password": "1234",
-    "role": "admin"
+    "first_name": "prueba3",
+    "last_name": "dto2",
+    "email": "dto3@gmail.com",
+    "password": "1234"
 }
+
+###
+PUT http://localhost:8080/api/users/65a6f446c032ca161f68d2a6
+
+{
+    "first_name": "pruebaPut",
+    "last_name": "prueba",
+    "email": "prueba@gmail.com",
+    "password": "1234"
+}
+
+###
+DELETE http://localhost:8080/api/users/65a6f446c032ca161f68d2a6
 
 

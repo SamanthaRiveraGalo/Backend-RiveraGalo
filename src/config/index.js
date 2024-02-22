@@ -19,7 +19,12 @@ const configObject = {
     user_admin_password: process.env.USER_ADMIN_PASSWORD,
     jwt_secret_key: process.env.JWT_SECRET_KEY,
     gh_client_id: process.env.GITHUB_CLIENT_ID,
-    gh_client_secret: process.env.GITHUB_CLIENT_SECRET
+    gh_client_secret: process.env.GITHUB_CLIENT_SECRET,
+    gmail_user_app: process.env.GMAIL_USER_APP,
+    gmail_pass_app: process.env.GMAIL_PASS_APP,
+    twilio_account_sid: process.env.TWILIO_ACCOUNT_SID,
+    twilio_auth_token: process.env.TWILIO_AUTH_TOKEN,
+    twilio_phone: process.env.TWILIO_PHONE
 }
 
 

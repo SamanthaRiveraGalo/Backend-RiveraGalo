@@ -8,7 +8,7 @@ const routerApp = require('./routes/index.js')
 const socketIoConfig = require('./utils/socketio.js')
 const session = require('express-session')
 const MongoStore = require('connect-mongo')
-
+const cors = require('cors')
 const app = express()
 const port = configObject.PORT
 
@@ -32,6 +32,8 @@ app.use(session({
   resave: true,
   saveUninitialized: true
 }))
+
+app.use(cors())
 
 //MIDDLEWARE PASSPORT
 initializePassport()

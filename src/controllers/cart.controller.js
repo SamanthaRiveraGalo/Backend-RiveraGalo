@@ -1,9 +1,12 @@
 const CartDaoMongo = require("../dao/managerMongo/cartManagerMongo");
+const ProductDaoMongo = require("../dao/managerMongo/productManagerMongo");
+const { ticketService } = require("../repositories/index.js");
 
 class CartController {
 
     constructor() {
         this.cartService = new CartDaoMongo()
+        this.productService = new ProductDaoMongo()
     }
 
     carts = async (req, res) => {
@@ -178,6 +181,53 @@ class CartController {
             console.log(error)
         }
     }
+
+    //ticket 
+
+    finalizePurchase = async (req, res) => {
+
+        const { cid } = req.params
+
+        try {
+            //busco el carrito por el id
+            const cart = await this.cartService.getCartById(cid)
+            console.log(cart)// me devulve el carrito
+
+            //productos que no tenemos en stock
+            const unavalibleProducts = []
+            let totalAmount = 0
+
+            //por cada item del carrito
+            console.log(typeof cart.products)// undefinido
+            for (const item of cart.products) {
+                const product = item._id
+                const quantity = item.quantity
+
+                const productInStock = await this.productService.getProductById(product._id);
+                //cerificamos el stock y cantidad y actualizamos
+                if (productInStock.stock >= quantity) {
+                    productInStock.stock -= quantity;
+                    await productInStock.save()
+                    // monto total
+                    totalAmount += product.price * quantity
+                    //eliminamos el product del carrito 
+                    this.cartService.deleteProduct(cid, product._id)
+                } else {
+                    //sino lo agregamos a productos no disponibles
+                    unavalibleProducts.push(product._id)
+                }
+            }
+
+            // ticket - mandamos el total y el email
+            await ticketService.createTicket(totalAmount, req.user.email)
+
+            res.status(200).send({ message: 'Compra exitosa', unavalibleProducts: unavalibleProducts });
+
+        } catch (error) {
+            res.status(500).send(error.message)
+        }
+    }
+
 }
 
 module.exports = CartController

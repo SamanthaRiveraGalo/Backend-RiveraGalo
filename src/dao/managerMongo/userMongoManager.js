@@ -6,16 +6,12 @@ class User {
         this.model = userModel
     }
 
-    async getUser() {
+    async getUsers() {
         return await this.model.find()
     }
 
-    async getUserBy (filter){
+    async getUserBy ( filter ){
         return await this.model.findOne(filter)
-    }
-
-    async getUserByEmail ( uemail ){
-        return await this.model.findOne({email: uemail})
     }
 
     async createUser (newUser) {
@@ -25,10 +21,11 @@ class User {
 
     async updateUser (uid, userUpdate){
 
-       return await this.model.findOneAndUpdate({_id: uid}, userUpdate)
+       return await this.model.findOneAndUpdate({_id: uid}, userUpdate,{ new: true })
+
     }
 
-    async deleteUSer(uid){
+    async deleteUser(uid){
        return await this.model.findOneAndDelete({_id: uid})
     }
 
