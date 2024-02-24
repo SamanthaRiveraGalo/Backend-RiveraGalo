@@ -17,7 +17,7 @@ class SessionsController {
                 return res.status(404).json({ error: "Por favor ingrese todos los datos" });
             }
 
-            const user = await userManager.getUserBy({email: email})
+            const user = await userManager.getUserBy({ email: email })
 
             if (user) {
                 return res.send({ status: 'error', error: 'El email ya se encuentra registrado' })
@@ -61,7 +61,7 @@ class SessionsController {
                 return res.status(404).json({ error: "Por favor ingrese todos los datos" });
             }
 
-            const user = await userManager.getUserBy({email: email})
+            const user = await userManager.getUserBy({ email: email })
 
             if (!isValidPassword(user, password)) {
                 return res.send('email o contraseña incorrecta');
@@ -92,9 +92,24 @@ class SessionsController {
 
         res.redirect('/views/login')
     }
-  
+
     current = (req, res) => {
-        res.send('informacion sensible que solo puede ver el admin')
+
+        if (req.user) {
+
+            const { first_name, last_name, role } = req.user
+
+            const userDto = {
+                first_name: first_name,
+                last_name: last_name,
+                role: role
+            }
+            res.json(userDto)
+
+        } else {
+            res.status(401).json({ error: "No autorizado" })
+        }
+        // res.send('informacion sensible que solo puede ver el admin')
     }
 
     github = async (req, res) => { }
@@ -129,4 +144,4 @@ class SessionsController {
 
 }
 
-module.exports= SessionsController
+module.exports = SessionsController

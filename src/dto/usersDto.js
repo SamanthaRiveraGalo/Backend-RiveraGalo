@@ -8,7 +8,6 @@ class UserDto {
         this.fullname = `${newUser.first_name} ${newUser.last_name}`
     }
 
-    
 }
 
 module.exports = { UserDto }

@@ -16,7 +16,6 @@ class TicketDao {
         return tickets;
     }
 
-
 };
 
 module.exports = { TicketDao };

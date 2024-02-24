@@ -191,30 +191,35 @@ class CartController {
         try {
             //busco el carrito por el id
             const cart = await this.cartService.getCartById(cid)
-            console.log(cart)// me devulve el carrito
+            console.log(JSON.stringify(cart, null, 3));
 
             //productos que no tenemos en stock
             const unavalibleProducts = []
             let totalAmount = 0
 
             //por cada item del carrito
-            console.log(typeof cart.products)// undefinido
             for (const item of cart.products) {
-                const product = item._id
+                const product = item._id 
                 const quantity = item.quantity
 
-                const productInStock = await this.productService.getProductById(product._id);
+                const productInStock = await this.productService.getProductById(product._id); //el id del producto si lo toma
                 //cerificamos el stock y cantidad y actualizamos
+                console.log(productInStock)
                 if (productInStock.stock >= quantity) {
                     productInStock.stock -= quantity;
                     await productInStock.save()
                     // monto total
                     totalAmount += product.price * quantity
+
+                    console.log('cantidad: ',quantity) // si lo toma
+                    console.log('precio del producto', product.price) //undefine
+                    console.log('precio total:$ ',totalAmount) //NaN
                     //eliminamos el product del carrito 
                     this.cartService.deleteProduct(cid, product._id)
                 } else {
                     //sino lo agregamos a productos no disponibles
                     unavalibleProducts.push(product._id)
+                    console.log('productos no disponibles', unavalibleProducts)
                 }
             }
 

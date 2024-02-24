@@ -39,13 +39,13 @@ GET  http://localhost:8080/api/carts/6583875458d08e7dbe2535c7
 //funciona
 
 ###
-POST http://localhost:8080/api/carts/65838a2fa76ab3cf10efaca7/products/658383513b801dcfe9bc2075
+POST http://localhost:8080/api/carts/65838a2fa76ab3cf10efaca7/products/658dc9b8d389e566d60086ac
 
 ###
 POST http://localhost:8080/api/carts
 
 ###
-DELETE http://localhost:8080/api/carts/6583875458d08e7dbe2535c7/products/658c527add20566e92df2019
+DELETE http://localhost:8080/api/carts/65838a2fa76ab3cf10efaca7/products/658383513b801dcfe9bc2075
 //funciona
 
 ###
@@ -72,12 +72,6 @@ Content-Type: application/json
 //COMPRA
 ###
 POST http://localhost:8080/api/carts/6583875458d08e7dbe2535c7/purchase
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YTZmMTk2NjFhYWUzZTc4MzNkZjFkNyIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzA4NjExMDIzLCJleHAiOjE3MDg2OTc0MjN9.gWEN71bkGNPYePZwgHNjlGt-4fGxYveAqKbILhkKlbU
-Content-Type: application/json
-
-{
-  "_id": "658383513b801dcfe9bc2075", "quantity": 2 
-}
 
 
 ------------------USER-------------------
@@ -110,5 +104,8 @@ PUT http://localhost:8080/api/users/65a6f446c032ca161f68d2a6
 
 ###
 DELETE http://localhost:8080/api/users/65a6f446c032ca161f68d2a6
+
+
+# token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YTZmMTk2NjFhYWUzZTc4MzNkZjFkNyIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzA4NzMyMTcxLCJleHAiOjE3MDg4MTg1NzF9.3fYILGv4YpfFTIQU3KWiTBFl25ugBxL9CiDT8hhFvHg
 
 

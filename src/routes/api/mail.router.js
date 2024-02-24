@@ -13,7 +13,7 @@ router.get('/mail', (req, res) => {
     try {
 
         const user = {
-            email: 'projectodigitalgen@gmail.com',
+            email: 'riveragalosamantha@gmail.com',
             first_name: 'Samantha',
             last_name: 'Rivera Galo'
         }

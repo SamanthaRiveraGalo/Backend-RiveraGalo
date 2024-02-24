@@ -28,7 +28,7 @@ router.post('/login', login)
 
 router.get('/logout', logout)
 
-router.get('/current', [passsportCall('jwt'), authorizationJwt(['ADMIN'])], current)
+router.get('/current', [passsportCall('jwt'), authorizationJwt(['ADMIN', 'USER'])], current)
 
 //GitHUB
 

@@ -15,7 +15,7 @@ const transport = nodemailer.createTransport({
 exports.sendMail = async (destino, subject, html) => {
 
     return await transport.sendMail({
-        from: 'Este mail lo envia <projectodigitalgen@gmail.com>',
+        from: 'Este mail lo envia <riveragalosamantha@gmail.com>',
         to: destino,
         subject,
         html //va todo el cuerpo del mensaje
