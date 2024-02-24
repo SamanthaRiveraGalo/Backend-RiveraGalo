@@ -199,32 +199,28 @@ class CartController {
 
             //por cada item del carrito
             for (const item of cart.products) {
-                const product = item._id 
+                const productId = item._id 
                 const quantity = item.quantity
 
-                const productInStock = await this.productService.getProductById(product._id); //el id del producto si lo toma
+                const product = await this.productService.getProductById(productId); //el id del producto si lo toma
                 //cerificamos el stock y cantidad y actualizamos
-                console.log(productInStock)
-                if (productInStock.stock >= quantity) {
-                    productInStock.stock -= quantity;
-                    await productInStock.save()
+                if (product.stock >= quantity) {
+                    product.stock -= quantity;
+                    await product.save()
                     // monto total
                     totalAmount += product.price * quantity
-
-                    console.log('cantidad: ',quantity) // si lo toma
-                    console.log('precio del producto', product.price) //undefine
-                    console.log('precio total:$ ',totalAmount) //NaN
                     //eliminamos el product del carrito 
-                    this.cartService.deleteProduct(cid, product._id)
+                    this.cartService.deleteProduct(cid, productId)
                 } else {
                     //sino lo agregamos a productos no disponibles
-                    unavalibleProducts.push(product._id)
+                    unavalibleProducts.push(productId)
                     console.log('productos no disponibles', unavalibleProducts)
                 }
             }
 
             // ticket - mandamos el total y el email
-            await ticketService.createTicket(totalAmount, req.user.email)
+            const userEmail = req.session.user.email
+            await ticketService.createTicket(totalAmount, userEmail)
 
             res.status(200).send({ message: 'Compra exitosa', unavalibleProducts: unavalibleProducts });
 
