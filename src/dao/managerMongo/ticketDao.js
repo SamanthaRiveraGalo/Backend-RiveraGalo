@@ -3,10 +3,17 @@ const ticketModel = require("../models/ticket")
 class TicketDao {
 
     async createTicket(totalAmount, purchaser) {
+        try {
+            const ticket = new ticketModel({ amount: totalAmount, purchaser: purchaser });
+    
+            await ticket.save();
 
-        const ticket = new ticketModel({ amount: totalAmount, purchaser: purchaser });
+            return ticket
+            
+        } catch (error) {
+            console.log(error)
+        }
 
-        await ticket.save();
     };
 
     async getTicketsUser(purchaserMail) {

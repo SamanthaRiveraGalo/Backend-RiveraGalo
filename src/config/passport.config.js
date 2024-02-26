@@ -24,11 +24,16 @@ exports.initializePassport = () => {
     passport.use('jwt', new JWTStrategy({
         jwtFromRequest: ExtractJWT.fromExtractors([coookieExtractor]),
         secretOrKey: configObject.jwt_secret_key
-        //misma palabra secreta que esta en el archivo jwt
     }, async (jwt_payload, done)=>{
         try {
+
             console.log('jwtpayload passport config:', jwt_payload)
-            return done (null, jwt_payload)
+
+            const userId = jwt_payload.id
+
+            const user = await userService.getUserBy({_id: userId})
+
+            return done (null, user)
         } catch (error) {
             return done(error)
         }

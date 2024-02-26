@@ -7,6 +7,7 @@ class CartController {
     constructor() {
         this.cartService = new CartDaoMongo()
         this.productService = new ProductDaoMongo()
+        this.ticket = ticketService
     }
 
     carts = async (req, res) => {
@@ -220,8 +221,12 @@ class CartController {
 
             // ticket - mandamos el total y el email
             const userEmail = req.user.email
+            
             console.log('userEmail: ', userEmail)
-            await ticketService.createTicket(totalAmount, userEmail)
+            console.log(totalAmount)
+
+            const tiket = await this.ticket.createTicket(totalAmount, userEmail)
+            console.log('ticket: ',tiket)
 
             res.status(200).send({ message: 'Compra exitosa', unavalibleProducts: unavalibleProducts });
 
