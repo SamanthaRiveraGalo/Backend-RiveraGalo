@@ -4,7 +4,7 @@ class TicketRepository {
         this.dao = dao;
     }
 
-    createTicket = async (totalAmount, purchaser) => {
+    createTicket = async (totalAmount, purchaser, code, ) => {
         await this.dao.createTicket(totalAmount, purchaser)
     }
 

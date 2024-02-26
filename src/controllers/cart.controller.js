@@ -191,7 +191,7 @@ class CartController {
         try {
             //busco el carrito por el id
             const cart = await this.cartService.getCartById(cid)
-            console.log(JSON.stringify(cart, null, 3));
+            // console.log(JSON.stringify(cart, null, 3));
 
             //productos que no tenemos en stock
             const unavalibleProducts = []
@@ -219,7 +219,8 @@ class CartController {
             }
 
             // ticket - mandamos el total y el email
-            const userEmail = req.session.user.email
+            const userEmail = req.user.email
+            console.log('userEmail: ', userEmail)
             await ticketService.createTicket(totalAmount, userEmail)
 
             res.status(200).send({ message: 'Compra exitosa', unavalibleProducts: unavalibleProducts });

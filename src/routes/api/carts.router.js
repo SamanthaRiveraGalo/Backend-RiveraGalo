@@ -37,7 +37,7 @@ router.delete('/:cid', cartDelete);
 router.delete('/:cid/products/:pid', deleteProductCart)
 
 //TICKET
-router.post('/:cid/purchase', finalizePurchase)
+router.post('/:cid/purchase',[passsportCall('jwt'), authorizationJwt(['USER'])], finalizePurchase)
 
 
 

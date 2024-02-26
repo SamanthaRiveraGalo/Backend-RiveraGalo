@@ -93,24 +93,49 @@ class SessionsController {
         res.redirect('/views/login')
     }
 
-    current = (req, res) => {
+    // current = async (req, res) => {
 
-        if (req.user) {
+    //     if (req.user) {
 
-            const { first_name, last_name, role } = req.user
+    //         const { first_name, last_name, role } = req.user
+            
+    //         const userDto = {
+    //             first_name: first_name,
+    //             last_name: last_name,
+    //             role: role
+    //         }
 
+    //         console.log(userDto)
+    //         res.json(userDto)
+
+    //     } else {
+    //         res.status(401).json({ error: "No autorizado" })
+    //     }
+    //     // res.send('informacion sensible que solo puede ver el admin')
+    // }
+    current = async (req, res) => {
+        try {
+          const user = await req.user;
+      
+          if (user) {
+            const { first_name, last_name, role } = user;
+            
             const userDto = {
-                first_name: first_name,
-                last_name: last_name,
-                role: role
-            }
-            res.json(userDto)
-
-        } else {
-            res.status(401).json({ error: "No autorizado" })
+              first_name,
+              last_name,
+              role
+            };
+      
+            console.log(userDto);
+            res.json(userDto);
+          } else {
+            res.status(401).json({ error: "No autorizado" });
+          }
+        } catch (error) {
+          console.error("Error de autenticación:", error);
+          res.status(500).json({ error: "Error interno" });
         }
-        // res.send('informacion sensible que solo puede ver el admin')
-    }
+      }
 
     github = async (req, res) => { }
 
