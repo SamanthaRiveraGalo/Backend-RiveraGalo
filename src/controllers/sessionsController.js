@@ -11,7 +11,7 @@ class SessionsController {
     signUp = async (req, res) => {
         try {
 
-            const { first_name, last_name, email, password } = req.body
+            const { fullname, first_name, last_name, email, password } = req.body
 
             if (first_name === '' || last_name === '' || email === '' || password === '') {
                 return res.status(404).json({ error: "Por favor ingrese todos los datos" });
@@ -24,6 +24,7 @@ class SessionsController {
             }
 
             const newUser = {
+                fullname,
                 first_name,
                 last_name,
                 email,

@@ -86,9 +86,9 @@ POST http://localhost:8080/api/users
 Content-Type: application/json
 
 {
-    "first_name": "prueba3",
-    "last_name": "dto2",
-    "email": "dto3@gmail.com",
+    "first_name": "prueba",
+    "last_name": "dto",
+    "email": "dto@gmail.com",
     "password": "1234"
 }
 
