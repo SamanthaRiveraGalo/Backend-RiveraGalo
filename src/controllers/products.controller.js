@@ -1,4 +1,7 @@
 const ProductDaoMongo = require("../dao/managerMongo/productManagerMongo");
+const { CustomError } = require("../services/customError.js");
+const { EErrors } = require("../services/enum.js");
+const { createProductErrorInfo } = require("../services/info");
 
 class ProductController {
 
@@ -45,11 +48,20 @@ class ProductController {
 
     }
 
-    createProduct = async (req, res) => {
+    createProduct = async (req, res, next) => {
 
         try {
 
             const { title, description, code, price, thumbnails, stock, category } = req.body;
+
+            if(!title || !description || !code || !price || !stock || !category){
+                CustomError.createError({
+                    name: 'product creation error',
+                    cause: createProductErrorInfo({title,description,code,stock,price,category}),
+                    message: 'Error trying to created product',
+                    code: EErrors.INVALID_TYPE_ERROR
+                })
+            }
 
             const newProduct = {
                 title,

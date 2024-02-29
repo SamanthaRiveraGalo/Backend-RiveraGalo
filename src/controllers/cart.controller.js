@@ -1,6 +1,9 @@
 const CartDaoMongo = require("../dao/managerMongo/cartManagerMongo");
 const ProductDaoMongo = require("../dao/managerMongo/productManagerMongo");
 const { ticketService } = require("../repositories/index.js");
+const { CustomError } = require("../services/customError.js");
+const { EErrors } = require("../services/enum.js");
+const { generateCartRemoveErrorInfo } = require("../services/info.js");
 
 class CartController {
 
@@ -161,6 +164,15 @@ class CartController {
         try {
             const cartId = req.params.cid;
             const prodId = req.params.pid;
+
+            if(!cartId || !prodId){
+                CustomError.createError({
+                    name:'product delete error',
+                    cause: generateCartRemoveErrorInfo({cartId, prodId}),
+                    message:'Error trying to delete product from cart',
+                    code: EErrors.INVALID_TYPE_ERROR
+                })
+            }
 
             const deleteProduct = await this.cartService.deleteProduct(cartId, prodId)
 

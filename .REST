@@ -12,7 +12,7 @@ POST http://localhost:8080/api/products
 Content-Type: application/json
 
 {
-"title": "Nike prueba 3","description": "sin","category":"mujer","price":150000 ,"thumbnail": "sin img","code": "A2581","stock": 10
+"title": "Nike prueba error","description": "sin","price":1980000 , "category":"mujer","thumbnail": "sin img","code": "A255981","stock": 10
 }
 
 ###
@@ -86,10 +86,9 @@ POST http://localhost:8080/api/users
 Content-Type: application/json
 
 {
-    "first_name": "prueba",
-    "last_name": "dto",
-    "email": "dto@gmail.com",
-    "password": "1234"
+    "first_name": "pruebaError",
+    "email": "error@gmail.com",
+    "password": "123456"
 }
 
 ###

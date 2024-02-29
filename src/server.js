@@ -9,6 +9,8 @@ const socketIoConfig = require('./utils/socketio.js')
 const session = require('express-session')
 const MongoStore = require('connect-mongo')
 const cors = require('cors')
+const { handleError } = require('./middlewars/error/handleError.js')
+
 const app = express()
 const port = configObject.PORT
 
@@ -47,6 +49,7 @@ app.set('view engine', '.hbs')
 app.set('views', __dirname + '/views')
 
 app.use(routerApp)
+app.use(handleError)
 
 const serverHttp = app.listen(port, () => {
   console.log(`Server listening at [localhost:${port}]`);

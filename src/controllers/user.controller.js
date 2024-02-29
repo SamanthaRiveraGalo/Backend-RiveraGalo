@@ -1,4 +1,7 @@
 const { usersService } = require("../repositories/index.js")
+const { CustomError } = require("../services/customError.js")
+const { EErrors } = require("../services/enum.js")
+const { generateUserErrorInfo } = require("../services/info.js")
 
 
 class UserController {
@@ -13,7 +16,7 @@ class UserController {
     }
 
     getUserBy = async (req, res) => {
-        const  {email}  = req.params;
+        const { email } = req.params;
 
         try {
             const user = await this.userServiceMongo.getUserBy({ email });
@@ -21,15 +24,24 @@ class UserController {
         } catch (error) {
             res.status(404).json({ message: error.message });
         }
-       
+
     }
 
-    createUser = async (req, res) => {
+    createUser = async (req, res, next) => {
         try {
-
+            
             const { first_name, last_name, email, password } = req.body
 
-            const newUser = {first_name, last_name, email, password}
+            if (!first_name || !last_name || !email) {
+                CustomError.createError({
+                    name: 'User creation error',
+                    cause: generateUserErrorInfo({ first_name, last_name, email }),
+                    message: 'Error trying to created user',
+                    code: EErrors.INVALID_TYPE_ERROR
+                })
+            }
+
+            const newUser = { first_name, last_name, email, password }
 
             const result = await this.userServiceMongo.createUser(newUser)
 
@@ -37,8 +49,10 @@ class UserController {
                 status: 'succes',
                 payload: result
             })
+
         } catch (error) {
-            console.log(error)
+            // console.log(error)
+            next(error)
         }
     }
 
