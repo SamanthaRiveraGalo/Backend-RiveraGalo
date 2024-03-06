@@ -9,13 +9,16 @@ const viewsRouter = require('./views.router.js')
 const chatRouter = require('./chat.router.js')
 const mailRouter = require('./api/mail.router.js')
 const mockingRouter = require('./mockingProductsRoutes.js')
+const logger = require('./logger.router.js')
 
 const router = Router()
 
 //VIEWS
 router.use('/views', viewsRouter)
 router.use('/views', chatRouter)
+
 router.use('/mockingproduct', mockingRouter )
+router.use('/logger', logger)
 
 
 //API

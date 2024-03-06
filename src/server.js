@@ -10,6 +10,7 @@ const session = require('express-session')
 const MongoStore = require('connect-mongo')
 const cors = require('cors')
 const { handleError } = require('./middlewars/error/handleError.js')
+const { addLogger } = require('./utils/logger.js')
 
 const app = express()
 const port = configObject.PORT
@@ -48,6 +49,7 @@ app.engine('hbs', handlebars.engine({
 app.set('view engine', '.hbs')
 app.set('views', __dirname + '/views')
 
+app.use(addLogger)
 app.use(routerApp)
 app.use(handleError)
 

@@ -1,9 +1,9 @@
-// const { Command} = require ('commander')
+const { Command} = require ('commander')
 
-// const program = new Command()
+const program = new Command()
 
-// program
-//     .option('--mode <mode>', 'Enviroment mode', 'production ')
-//     .parse()
+program
+    .option('--mode <mode>', 'Enviroment mode', 'production ')
+    .parse()
 
-// module.exports = {program}
+module.exports = {program}

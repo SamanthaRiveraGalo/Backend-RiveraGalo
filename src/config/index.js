@@ -1,17 +1,21 @@
 const mongoose = require('mongoose')
 const dotenv = require('dotenv')
 const { connect } = require('mongoose')
+const { program } = require('./commander')
+const { addLogger } = require('../utils/logger')
 
 dotenv.config()
 
-// const opts = program.opts();
+const opts = program.opts()
 
-// dotenv.config({
-//     path: opts.mode == 'production' ? './.env.production' : './.env.development'})
+dotenv.config({
+    path: opts.mode == 'production' ? './.env.production' : './.env.development'
+})
 
 
 const configObject = {
     PORT: process.env.PORT || 8080,
+    env: process.env.ENV || 'development',
     mongo_url: process.env.MONGO_URL,
     mongo_secret: process.env.MONGO_SECRET,
     cookies_code: process.env.COOKIES_SECRET_CODE,
@@ -27,6 +31,7 @@ const configObject = {
     twilio_phone: process.env.TWILIO_PHONE
 }
 
+console.log('entorno: ',configObject.env)// esto esta funcionando en dev y prod
 
 //conexion con MONGO
 const connectDb = async () => {
@@ -41,7 +46,7 @@ const connectDb = async () => {
 }
 
 class MongoSingleton {
-    static instance 
+    static instance
     constructor() {
         connect(process.env.MONGO_URL);
     }
