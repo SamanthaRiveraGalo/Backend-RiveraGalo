@@ -30,7 +30,7 @@ class viewsController {
             res.status(200).render("realTimeProducts", { products });
 
         } catch (error) {
-            console.log(error)
+            req.logger.error(error)
         }
 
     }
@@ -61,7 +61,7 @@ class viewsController {
 
 
         } catch (error) {
-            console.log(error)
+            req.logger.error(error)
         }
 
     }
@@ -82,7 +82,7 @@ class viewsController {
             res.status(200).render("productDetail", product);
 
         } catch (error) {
-            console.log(error)
+            req.logger.error(error)
         }
     }
 

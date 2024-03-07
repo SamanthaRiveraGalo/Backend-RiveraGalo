@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const dotenv = require('dotenv')
 const { connect } = require('mongoose')
 const { program } = require('./commander')
-const { addLogger } = require('../utils/logger')
+const { logger } = require('../utils/logger')
 
 dotenv.config()
 
@@ -15,7 +15,7 @@ dotenv.config({
 
 const configObject = {
     PORT: process.env.PORT || 8080,
-    env: process.env.ENV || 'development',
+    env: process.env.NODE_ENV || 'development',
     mongo_url: process.env.MONGO_URL,
     mongo_secret: process.env.MONGO_SECRET,
     cookies_code: process.env.COOKIES_SECRET_CODE,
@@ -31,14 +31,11 @@ const configObject = {
     twilio_phone: process.env.TWILIO_PHONE
 }
 
-console.log('entorno: ',configObject.env)// esto esta funcionando en dev y prod
-
 //conexion con MONGO
 const connectDb = async () => {
     try {
-        // await mongoose.connect(process.env.MONGO_URL)
         MongoSingleton.getInstance()
-        console.log('Base de datos conectada')
+        logger.info('Base de datos conectada')
         return mongoose.connection;
     } catch (error) {
         console.error('Error de conexión a MongoDB:', error);
@@ -53,10 +50,10 @@ class MongoSingleton {
 
     static getInstance() {
         if (!this.instance) {
-            console.log('Conectado a Base de Datos');
+            logger.info('Conectado a Base de Datos');
             return this.instance = new MongoSingleton();
         }
-        console.log('Base de Datos ya conectada');
+        logger.info('Base de Datos ya conectada');
         return this.instance;
     }
 }

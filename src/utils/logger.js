@@ -1,5 +1,4 @@
 const winston = require('winston')
-const { configObject } = require('../config')
 
 const customLevelsOptions = {
     levels: {
@@ -50,10 +49,9 @@ const loggerDev = winston.createLogger({
     ]
 })
 
+const logger = process.env.ENV === 'production' ? loggerProd : loggerDev;
+
 const addLogger = (req, res, next) => {
-    
-    const logger = process.env.ENV === 'production' ? loggerProd : loggerDev;
-    console.log('logger', process.env.ENV)
     
     req.logger = logger
     req.logger.info(`${req.method} en ${req.url} - ${new Date().toLocaleTimeString()}`)
@@ -62,4 +60,4 @@ const addLogger = (req, res, next) => {
    
 }
 
-module.exports = { addLogger }
+module.exports = { addLogger, logger }

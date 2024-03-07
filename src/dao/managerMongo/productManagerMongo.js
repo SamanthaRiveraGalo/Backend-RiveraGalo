@@ -1,3 +1,4 @@
+const { logger } = require("../../utils/logger");
 const productModel = require("../models/product.model")
 
 class ProductDaoMongo {
@@ -35,7 +36,7 @@ class ProductDaoMongo {
             const products = data.docs.map((prod)=>prod.toObject())
 
             if (products.length === 0) {
-              console.log('producto no encontrado')
+              logger.info('producto no encontrado')
             }
 
             const totalPages = data.totalPages;
@@ -63,7 +64,7 @@ class ProductDaoMongo {
             return response;
 
         } catch (error) {
-            console.error(error);
+            req.logger.error(error)
         }
     }
 

@@ -10,7 +10,7 @@ const session = require('express-session')
 const MongoStore = require('connect-mongo')
 const cors = require('cors')
 const { handleError } = require('./middlewars/error/handleError.js')
-const { addLogger } = require('./utils/logger.js')
+const { addLogger, logger } = require('./utils/logger.js')
 
 const app = express()
 const port = configObject.PORT
@@ -54,7 +54,7 @@ app.use(routerApp)
 app.use(handleError)
 
 const serverHttp = app.listen(port, () => {
-  console.log(`Server listening at [localhost:${port}]`);
+  logger.info(`Server listening at [localhost:${port}]`);
 });
 
 socketIoConfig(serverHttp)

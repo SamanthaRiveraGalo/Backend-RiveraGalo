@@ -1,3 +1,5 @@
+const { logger } = require("../../utils/logger");
+
 const socket = io();
 
 const userNameInput = document.querySelector('#userName')
@@ -9,7 +11,7 @@ chatBox.addEventListener('keyup', evt => {
 
         const user = userNameInput.value
 
-        console.log(user,chatBox.value)
+        logger.info(user,chatBox.value)
 
         if (chatBox.value.trim().length > 0) {
 

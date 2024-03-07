@@ -25,7 +25,7 @@ class CartController {
             return res.send({ status: "Sucess", payload: carts });
 
         } catch (error) {
-            console.log(error)
+            req.logger.error(error)
         }
     }
 
@@ -47,7 +47,7 @@ class CartController {
             return res.send({ status: "Sucess", payload: carts });
 
         } catch (error) {
-            console.log(error)
+            req.logger.error('carrito no encontrado',error)
         }
     }
 
@@ -67,7 +67,7 @@ class CartController {
             })
 
         } catch (error) {
-            console.log(error);
+            req.logger.error(error)
         }
 
     }
@@ -94,7 +94,7 @@ class CartController {
             });
 
         } catch (error) {
-            console.log(error)
+            req.logger.error(error)
         }
     }
 
@@ -112,7 +112,7 @@ class CartController {
 
 
         } catch (error) {
-            console.log(error)
+            req.logger.error(error)
         }
     }
 
@@ -131,7 +131,7 @@ class CartController {
 
 
         } catch (error) {
-            console.log(error)
+            req.logger.error(error)
         }
     }
 
@@ -156,7 +156,7 @@ class CartController {
             });
 
         } catch (error) {
-            console.log(error);
+            req.logger.error(error)
         }
     }
 
@@ -191,7 +191,7 @@ class CartController {
             });
 
         } catch (error) {
-            console.log(error)
+            req.logger.error(error)
         }
     }
 
@@ -227,18 +227,13 @@ class CartController {
                 } else {
                     //sino lo agregamos a productos no disponibles
                     unavalibleProducts.push(productId)
-                    console.log('productos no disponibles', unavalibleProducts)
                 }
             }
 
             // ticket - mandamos el total y el email
             const userEmail = req.user.email
-            
-            console.log('userEmail: ', userEmail)
-            console.log(totalAmount)
 
             const tiket = await this.ticket.createTicket(totalAmount, userEmail)
-            console.log('ticket: ',tiket)
 
             res.status(200).send({ message: 'Compra exitosa', unavalibleProducts: unavalibleProducts });
 

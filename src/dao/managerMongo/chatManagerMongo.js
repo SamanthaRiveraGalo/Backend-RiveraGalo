@@ -15,7 +15,7 @@ class ChatMassage {
             });
             return messages;
         } catch (error) {
-            console.log(error)
+            req.logger.error(error)
         }
     }
 

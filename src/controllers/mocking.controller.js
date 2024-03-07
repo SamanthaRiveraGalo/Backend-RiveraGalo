@@ -12,7 +12,7 @@ class MockingController {
             res.status(200).send(products)
 
         } catch (error) {
-            console.log(error)
+            req.logger.error(error)
         }
     }
 

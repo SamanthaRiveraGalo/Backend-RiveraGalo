@@ -28,7 +28,7 @@ router.get('/mail', (req, res) => {
         res.send('Mail enviado')
 
     } catch (error) {
-        console.log(error)
+        req.logger.error(error)
     }
 })
 

@@ -5,6 +5,7 @@ const { createHash, isValidPassword } = require('../utils/hashPassword')
 const GithubStrategy = require('passport-github2') //ya no usamos
 const jwt = require('passport-jwt')
 const { configObject } = require('.')
+const { logger } = require('../utils/logger')
 
 const LocalStrategy = local.Strategy
 const userService = new User()
@@ -124,7 +125,7 @@ exports.initializePassport = () => {
             const user = await userService.getUserBy({ email: username })
 
             if (!user) {
-                console.log('No existe el usuario')
+                logger.info('No existe el usuario')
                 return done(null, false)
             }
 

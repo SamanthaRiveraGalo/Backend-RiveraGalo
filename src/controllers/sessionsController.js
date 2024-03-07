@@ -1,6 +1,7 @@
 const User = require("../dao/managerMongo/userMongoManager");
 const { isValidPassword, createHash } = require("../utils/hashPassword");
 const { createToken } = require("../utils/jwt");
+const { logger } = require("../utils/logger");
 
 const userManager = new User()
 
@@ -35,7 +36,7 @@ class SessionsController {
 
             const token = createToken({ id: result._id })
 
-            console.log(token)
+            req.logger.info(token)
 
             res.cookie('token', token, {
                 maxAge: 60 * 60 * 1000 * 24,
@@ -47,7 +48,7 @@ class SessionsController {
 
 
         } catch (error) {
-            console.log(error)
+            req.logger.error(error)
         }
 
     }
@@ -69,7 +70,7 @@ class SessionsController {
             }
 
             const token = createToken({ id: user._id, role: user.role });
-            console.log(token)
+            req.logger.info(token)
 
             res.cookie('token', token, {
                 maxAge: 60 * 60 * 1000 * 24,
@@ -80,7 +81,7 @@ class SessionsController {
             });
 
         } catch (error) {
-            console.log(error)
+            req.logger.error(error)
 
         }
     }
@@ -127,7 +128,7 @@ class SessionsController {
               role
             };
       
-            console.log(userDto);
+            logger.info(userDto);
             res.json(userDto);
           } else {
             res.status(401).json({ error: "No autorizado" });

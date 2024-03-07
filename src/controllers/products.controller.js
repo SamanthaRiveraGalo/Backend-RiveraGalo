@@ -24,7 +24,7 @@ class ProductController {
 
 
         } catch (error) {
-            console.log(error)
+            req.logger.error(error)
         }
 
     }
@@ -43,7 +43,7 @@ class ProductController {
             return res.status(200).send({ status: "Success", payload: product });
 
         } catch (error) {
-            console.log(error)
+            req.logger.error(error)
         }
 
     }
@@ -82,7 +82,7 @@ class ProductController {
             return res.status(201).send({ status: "Success", payload: result, })
 
         } catch (error) {
-            console.log(error)
+            req.logger.error(error)
         }
 
     }
@@ -107,7 +107,7 @@ class ProductController {
             });
 
         } catch (error) {
-            console.log(error)
+            req.logger.error(error)
         }
 
     }
@@ -129,7 +129,7 @@ class ProductController {
             return res.status(404).send({ status: "Error", error: "producto para eliminar no encontrado", });
 
         } catch (error) {
-            console.log(error)
+            req.logger.error(error)
         }
 
     }

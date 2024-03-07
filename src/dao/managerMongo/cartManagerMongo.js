@@ -37,7 +37,7 @@ class CartDaoMongo {
             return cart
 
         } catch (error) {
-            console.log(error)
+            req.logger.error(error)
         }
     };
     //revisar
@@ -53,7 +53,7 @@ class CartDaoMongo {
             return updatedCart;
 
         } catch (error) {
-            console.log(error)
+            req.logger.error(error)
         }
 
     }
@@ -69,7 +69,7 @@ class CartDaoMongo {
 
             return { success: 'succes', payload: cart }
         } catch (error) {
-            console.error(error);
+            req.logger.error(error)
         }
     }
 
@@ -79,7 +79,7 @@ class CartDaoMongo {
             const cart = await this.model.findOne({ _id: cid });
 
             if (!cart) {
-                console.log('no se encontro el carrito')
+                req.logger.error('no se encontro el carrito/manager',error)
             }
 
 
@@ -90,7 +90,7 @@ class CartDaoMongo {
             return updatedCart;
 
         } catch (error) {
-            console.log(error);
+            req.logger.error(error)
         }
     }
 
@@ -115,7 +115,7 @@ class CartDaoMongo {
             return cart;
 
         } catch (error) {
-            console.log(error)
+            req.logger.error(error)
         }
     }
 
