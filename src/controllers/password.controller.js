@@ -1,8 +1,8 @@
-const { Console } = require("winston/lib/winston/transports/index.js");
 const { configObject } = require("../config/index.js")
 const { usersService } = require("../repositories/index.js")
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer')
+const { createHash } = require("../utils/hashPassword.js")
 
 class PasswordController {
     constructor() {
@@ -65,20 +65,18 @@ class PasswordController {
 
     restorePassword = async (req, res) => {
         try {
-            const { newpassword } = req.body 
-            const { token } = req.params 
+            const newpassword = req.body.newpassword
+            const { token } = req.body
 
-            const data = jwt.decode(token)
+            console.log(newpassword)// esto me da undefine
+            //verificacion de token
+            const data = jwt.verify(token, configObject.jwt_secret_key)
 
-            console.log('data',data)
+            const email = data.email
 
             if (!data) {
                 return res.status(401).json({ error: 'Token no válido o expirado' })
             }
-
-            const email = data.email
-
-            console.log('email', email)
 
             const user = await this.userServiceMongo.getUserBy({ email })
 
@@ -86,15 +84,30 @@ class PasswordController {
                 return res.status(401).send('Usuario no encontrado')
             }
 
-            const hashPassword = bcrypt.hashSync(newpassword, bcrypt.genSaltSync(10))
+            const hashPassword = createHash(newpassword);
+            console.log(hashPassword)
 
             if (hashPassword === user.password) {
-                return res.status(400).json({ error: 'La nueva contraseña no puede ser igual a la anterior' })
+                return res.status(400).json({ error: 'La nueva contraseña no puede ser igual a la anterior' });
             }
 
-            await this.userServiceMongo.updateUser(user._id, hashPassword)
+            const result = await this.userServiceMongo.updateUser(user._id, { password: hashPassword })
+            console.log(result)
 
-            return res.status(200).json({ message: 'Contraseña actualizada correctamente' })
+            // return res.status(200).json({ message: 'Contraseña actualizada correctamente' })
+
+            if (result.success) {
+                res.status(200).send({
+                    success: true,
+                    message: "Contraseña actualizada correctamente",
+                    redirect: "/views/login" 
+                })
+            } else {
+                res.status(400).send({
+                    success: false,
+                    message: "Error al actualizar la contraseña"
+                })
+            }
 
         } catch (error) {
             console.log(error)
