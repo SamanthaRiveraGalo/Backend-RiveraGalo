@@ -10,23 +10,23 @@ class User {
         return await this.model.find()
     }
 
-    async getUserBy ( filter ){
+    async getUserBy(filter) {
         return await this.model.findOne(filter)
     }
 
-    async createUser (newUser) {
+    async createUser(newUser) {
 
-       return await this.model.create(newUser)
-    } 
+        return await this.model.create(newUser)
+    }
 
-    async updateUser (uid, userUpdate){
+    async updateUser(uid, userUpdate) {
 
-       return await this.model.findOneAndUpdate({_id: uid}, userUpdate,{ new: true })
+        return await this.model.findOneAndUpdate({ _id: uid }, userUpdate, { new: true })
 
     }
 
-    async deleteUser(uid){
-       return await this.model.findOneAndDelete({_id: uid})
+    async deleteUser(uid) {
+        return await this.model.findOneAndDelete({ _id: uid })
     }
 
 

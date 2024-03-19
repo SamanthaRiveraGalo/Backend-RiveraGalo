@@ -32,6 +32,11 @@ const productSchema = Schema({
     },
     thumbnails: {
         type: String,
+    },
+    owner:{
+        type: String,
+        ref: 'User',
+        default: 'admin'
     }
 })
 

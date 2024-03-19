@@ -13,7 +13,7 @@ const {
     products,
     productId,
     cartId
-} =  new viewsController()
+} = new viewsController()
 
 
 //VISTA LOGIN - REGISTER Y PROFILE
@@ -36,11 +36,21 @@ router.get('/products', products)
 
 //DETALLE DE UN PRODUCTO
 
-router.get('/products/:pid', productId )
+router.get('/products/:pid', productId)
 
 //VISTA DEL CARRITO
 
 router.get('/cart/:cid', privateAccess, cartId)
 
+//VISTA DE CONTRASENIA
+
+router.get('/forgot', (req, res) => {
+    res.render('forgot')
+})
+
+router.get('/restorePassword/:token', (req,res)=>{
+    const { token } = req.params
+    res.render('restorePassword', { token })
+})
 
 module.exports = router

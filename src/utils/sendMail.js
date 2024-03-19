@@ -18,7 +18,7 @@ exports.sendMail = async (destino, subject, html) => {
         from: 'Este mail lo envia <riveragalosamantha@gmail.com>',
         to: destino,
         subject,
-        html //va todo el cuerpo del mensaje
+        html
     })
 
 }

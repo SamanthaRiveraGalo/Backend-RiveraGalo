@@ -3,7 +3,7 @@ GET http://localhost:8080/api/products
 //funciona
 
 ###
-GET http://localhost:8080/api/products/658383513b801dcfe9bc2075
+GET http://localhost:8080/api/products/65f5acf025b44c56fc8614fe
 //funciona
 
 ###
@@ -79,15 +79,22 @@ POST http://localhost:8080/api/carts/6583875458d08e7dbe2535c7/purchase
 GET http://localhost:8080/api/users
 
 ###
-GET http://localhost:8080/api/users/samirivera1808@gmail.com
+GET http://localhost:8080/api/users/s@gmail.com
+
+###
+GET  http://localhost:8080/api/users/65a6f19661aae3e7833df1d7
+
+###
+GET  http://localhost:8080/api/users/premium/65a6f19661aae3e7833df1d7
 
 ###
 POST http://localhost:8080/api/users
 Content-Type: application/json
 
 {
-    "first_name": "pruebaError",
-    "email": "error@gmail.com",
+    "first_name": "Samantha",
+    "last_name": "Rivera Galo",
+    "email": "riveragalosamantha@gmail.com",
     "password": "123456"
 }
 

@@ -8,7 +8,8 @@ const {
     getUserBy,
     createUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    changeRole
 } = new UserController()
 
 router.get('/', getUsers)
@@ -20,5 +21,8 @@ router.post('/', createUser)
 router.put('/:uid', updateUser)
 
 router.delete('/:uid', deleteUser)
+
+//cambio de rol
+router.get('/premium/:uid', changeRole)
 
 module.exports = router

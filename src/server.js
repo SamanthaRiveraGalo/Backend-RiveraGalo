@@ -20,6 +20,7 @@ connectDb()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(__dirname + '/public'))
+app.use(cors())
 app.use(cookieParser(configObject.cookies_code)) //firma de la cookie
 
 app.use(session({
@@ -35,8 +36,6 @@ app.use(session({
   resave: true,
   saveUninitialized: true
 }))
-
-app.use(cors())
 
 //MIDDLEWARE PASSPORT
 initializePassport()

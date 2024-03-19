@@ -47,7 +47,7 @@ class CartController {
             return res.send({ status: "Sucess", payload: carts });
 
         } catch (error) {
-            req.logger.error('carrito no encontrado',error)
+            req.logger.error('carrito no encontrado', error)
         }
     }
 
@@ -72,6 +72,7 @@ class CartController {
 
     }
 
+
     addProductCart = async (req, res) => {
         try {
 
@@ -94,7 +95,7 @@ class CartController {
             });
 
         } catch (error) {
-            req.logger.error(error)
+            console.log(error)
         }
     }
 
@@ -165,11 +166,11 @@ class CartController {
             const cartId = req.params.cid;
             const prodId = req.params.pid;
 
-            if(!cartId || !prodId){
+            if (!cartId || !prodId) {
                 CustomError.createError({
-                    name:'product delete error',
-                    cause: generateCartRemoveErrorInfo({cartId, prodId}),
-                    message:'Error trying to delete product from cart',
+                    name: 'product delete error',
+                    cause: generateCartRemoveErrorInfo({ cartId, prodId }),
+                    message: 'Error trying to delete product from cart',
                     code: EErrors.INVALID_TYPE_ERROR
                 })
             }
@@ -212,7 +213,7 @@ class CartController {
 
             //por cada item del carrito
             for (const item of cart.products) {
-                const productId = item._id 
+                const productId = item._id
                 const quantity = item.quantity
 
                 const product = await this.productService.getProductById(productId); //el id del producto si lo toma

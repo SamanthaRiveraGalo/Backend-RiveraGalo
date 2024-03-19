@@ -95,26 +95,6 @@ class SessionsController {
         res.redirect('/views/login')
     }
 
-    // current = async (req, res) => {
-
-    //     if (req.user) {
-
-    //         const { first_name, last_name, role } = req.user
-            
-    //         const userDto = {
-    //             first_name: first_name,
-    //             last_name: last_name,
-    //             role: role
-    //         }
-
-    //         console.log(userDto)
-    //         res.json(userDto)
-
-    //     } else {
-    //         res.status(401).json({ error: "No autorizado" })
-    //     }
-    //     // res.send('informacion sensible que solo puede ver el admin')
-    // }
     current = async (req, res) => {
         try {
           const user = await req.user;

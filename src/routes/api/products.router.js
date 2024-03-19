@@ -18,10 +18,10 @@ router.get("/", getsProducts);
 
 router.get("/:pid", getProductId);
 
-router.post("/", [passsportCall('jwt'), authorizationJwt(['ADMIN'])], createProduct);
+router.post("/", [passsportCall('jwt'), authorizationJwt(['ADMIN', 'PREMIUM'])], createProduct);
 
 router.put("/:pid", [passsportCall('jwt'), authorizationJwt(['ADMIN'])], updateProduct);
 
-router.delete("/:pid", [passsportCall('jwt'), authorizationJwt(['ADMIN'])], deleteProduct);
+router.delete("/:pid", [passsportCall('jwt'), authorizationJwt(['ADMIN', 'PREMIUM'])], deleteProduct);
 
 module.exports = router;
