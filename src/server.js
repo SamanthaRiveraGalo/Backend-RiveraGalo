@@ -12,6 +12,9 @@ const cors = require('cors')
 const { handleError } = require('./middlewars/error/handleError.js')
 const { addLogger, logger } = require('./utils/logger.js')
 
+const swaggerJsDoc = require('swagger-jsdoc')
+const swaggerUiExpress = require('swagger-ui-express')
+
 const app = express()
 const port = configObject.PORT
 
@@ -48,9 +51,27 @@ app.engine('hbs', handlebars.engine({
 app.set('view engine', '.hbs')
 app.set('views', __dirname + '/views')
 
+
 app.use(addLogger)
 app.use(routerApp)
 app.use(handleError)
+
+//SWAGGER
+
+const swaggerOptions = {
+  definition :{
+    openapi: '3.0.1',
+    info:{
+      title:'Documentacion',
+      descreption:'Api docs para documentacion'
+    }
+  },
+  apis:[`${__dirname}/docs/**/*.yaml`]
+}
+
+const specs = swaggerJsDoc(swaggerOptions)
+
+app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs))
 
 const serverHttp = app.listen(port, () => {
   logger.info(`Server listening at [localhost:${port}]`);
