@@ -1,0 +1,32 @@
+.footer {
+    background-color: #181818;
+    color: #fff;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(1fr, 100px);
+    padding: 2rem 2rem 0 2rem;
+    font: 20px;
+}
+
+.footer-body {
+    grid-area: 1 / 1 / 2 / 5;
+    display: flex;
+    justify-content: space-between;
+}
+
+.footer-pie {
+    grid-area: 2 / 1 / 3 / 5;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 3rem;
+}
+
+.footer-ubicacion{
+    display: flex;
+    gap: 1.5rem;
+}
+
+.footer-title-ayuda, .footer-title-acerca, .footer-title-redes {
+    font-weight: bolder;
+    font-size: 23px;
+}

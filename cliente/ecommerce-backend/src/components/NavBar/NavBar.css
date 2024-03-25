@@ -1,0 +1,23 @@
+.brand {
+    text-decoration: none;
+    color: #fff;
+    font-size: 25px;
+    font-weight: bold;
+    padding-right: 2rem;
+}
+
+.conteiner-nav {
+    gap: 1.5rem;
+    text-align: center;
+    font-size: 18px;
+}
+
+.category {
+    text-decoration: none;
+    color: #fff;
+}
+
+.cart{
+    padding-left: 1rem;
+    text-decoration: none;
+}
